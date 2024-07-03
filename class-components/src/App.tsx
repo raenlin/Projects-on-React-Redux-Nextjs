@@ -37,29 +37,30 @@ class App extends Component<AppProps, SearchProps> {
 
   handleFetchAllData = async () => {
     try {
+      this.setState({ isFetching: true });
       const items = await fetchAllData();
       this.setState({
         items,
         error: null,
-        isFetching: true,
       });
     } catch (error) {
       this.setState({
         items: [],
         error: error instanceof Error ? error : new Error('Unknown error'),
-        isFetching: true,
       });
+    } finally {
+      this.setState({ isFetching: false });
     }
   };
 
   handleFetchData = async (searchInput: string) => {
     try {
+      this.setState({ isFetching: true });
       const items = await fetchData(searchInput);
       this.setState({
         searchInput: searchInput.trim(),
         items,
         error: null,
-        isFetching: true,
       });
       localStorage.setItem('searchPlanet', searchInput.trim());
     } catch (error) {
@@ -67,8 +68,9 @@ class App extends Component<AppProps, SearchProps> {
         searchInput: '',
         items: [],
         error: error instanceof Error ? error : new Error('Unknown error'),
-        isFetching: true,
       });
+    } finally {
+      this.setState({ isFetching: false });
     }
   };
 
@@ -76,7 +78,7 @@ class App extends Component<AppProps, SearchProps> {
     const { error, isFetching } = this.state;
     if (error) {
       return <p>Error {error.message}</p>;
-    } else if (!isFetching) {
+    } else if (isFetching) {
       return (
         <>
           <Header name="Star Wars Planets" />
