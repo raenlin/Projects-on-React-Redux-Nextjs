@@ -1,0 +1,22 @@
+.search-inner {
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-inner__input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 250px;
+}
+
+.search-inner__button {
+  cursor: pointer;
+  height: 35px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+}

@@ -1,0 +1,18 @@
+.main-list {
+  margin: 0 auto;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.main-list__item {
+  width: 300px;
+  border: 1px solid #fff5ee;
+  text-align: center;
+}
+
+.main-list__item-inner {
+  padding: 10px;
+}
