@@ -77,7 +77,13 @@ class App extends Component<AppProps, SearchProps> {
     if (error) {
       return <p>Error {error.message}</p>;
     } else if (!isFetching) {
-      return <div className="loader"></div>;
+      return (
+        <>
+          <Header name="Star Wars Planets" />
+          <Search onSearch={this.handleFetchData} />
+          <div className="loader"></div>
+        </>
+      );
     } else {
       return (
         <>
