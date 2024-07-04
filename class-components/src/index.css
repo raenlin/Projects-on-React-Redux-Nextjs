@@ -27,3 +27,16 @@ input {
 li {
   list-style: none;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer {
+  border-top: 2px solid #fff5ee;
+}
+
+h3 {
+  text-align: center;
+}

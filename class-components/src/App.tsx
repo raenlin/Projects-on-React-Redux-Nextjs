@@ -6,6 +6,7 @@ import Main from './view/Main/main';
 import { Planet } from './utils/types';
 import { fetchData } from './services/api';
 import ErrorBoundary from './components/Errorboundary';
+import Footer from './view/Footer/footer';
 
 type AppProps = Record<string, never>;
 
@@ -75,6 +76,7 @@ class App extends Component<AppProps, SearchProps> {
           <Header name="Star Wars Planets" />
           <Search onSearch={this.handleFetchData} />
           <Main items={this.state.items} />
+          <Footer />
         </ErrorBoundary>
       );
     }
