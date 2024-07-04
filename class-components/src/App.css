@@ -26,3 +26,8 @@
     transform: rotate(1turn);
   }
 }
+
+.error-boundary {
+  text-align: center;
+  margin-top: 20%;
+}

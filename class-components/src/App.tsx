@@ -4,7 +4,8 @@ import Header from './view/Header/header';
 import Search from './view/Search/search';
 import Main from './view/Main/main';
 import { Planet } from './utils/types';
-import { fetchAllData, fetchData } from './services/api';
+import { fetchData } from './services/api';
+import ErrorBoundary from './components/Errorboundary';
 
 type AppProps = Record<string, never>;
 
@@ -31,27 +32,9 @@ class App extends Component<AppProps, SearchProps> {
     if (savedSearch) {
       this.handleFetchData(savedSearch);
     } else {
-      this.handleFetchAllData();
+      this.handleFetchData('');
     }
   }
-
-  handleFetchAllData = async () => {
-    try {
-      this.setState({ isFetching: true });
-      const items = await fetchAllData();
-      this.setState({
-        items,
-        error: null,
-      });
-    } catch (error) {
-      this.setState({
-        items: [],
-        error: error instanceof Error ? error : new Error('Unknown error'),
-      });
-    } finally {
-      this.setState({ isFetching: false });
-    }
-  };
 
   handleFetchData = async (searchInput: string) => {
     try {
@@ -88,11 +71,11 @@ class App extends Component<AppProps, SearchProps> {
       );
     } else {
       return (
-        <>
+        <ErrorBoundary>
           <Header name="Star Wars Planets" />
           <Search onSearch={this.handleFetchData} />
           <Main items={this.state.items} />
-        </>
+        </ErrorBoundary>
       );
     }
   }

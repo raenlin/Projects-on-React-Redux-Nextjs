@@ -8,8 +8,12 @@ type MainProps = {
 };
 
 class Main extends Component<MainProps> {
+  constructor(props: MainProps) {
+    super(props);
+  }
   render() {
     const { items } = this.props;
+
     return (
       <section className="main">
         <ul className="main-list">

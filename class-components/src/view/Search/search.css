@@ -13,10 +13,26 @@
   width: 250px;
 }
 
-.search-inner__button {
+.search-inner__button,
+.search-inner__button-error {
   cursor: pointer;
-  height: 35px;
+  height: 38px;
   width: 100px;
   border: none;
   border-radius: 5px;
+  transition: all 0.2s ease;
+}
+
+.search-inner__button-error {
+  background-color: #f0e68c;
+}
+
+.search-inner__button:hover {
+  background: rgb(241, 194, 66);
+  background: radial-gradient(
+    circle,
+    rgba(241, 194, 66, 1) 0%,
+    rgba(245, 70, 252, 0.6488970588235294) 100%
+  );
+  box-shadow: 0px 0px 31px 13px rgba(66, 4, 77, 0.59);
 }

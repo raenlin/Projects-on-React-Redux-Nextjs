@@ -7,6 +7,9 @@ type ButtonProp = {
 };
 
 class Button extends Component<ButtonProp> {
+  constructor(props: ButtonProp) {
+    super(props);
+  }
   handleClick = () => {
     this.props.onClick();
   };

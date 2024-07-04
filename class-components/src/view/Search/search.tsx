@@ -6,6 +6,7 @@ import Input from '../../components/input';
 
 type InputProp = {
   input: string;
+  isError?: boolean;
 };
 
 type SearchProp = {
@@ -17,6 +18,7 @@ class Search extends Component<SearchProp, InputProp> {
     super(props);
     this.state = {
       input: '',
+      isError: false,
     };
   }
 
@@ -25,30 +27,35 @@ class Search extends Component<SearchProp, InputProp> {
   };
 
   handleClick = () => {
-    const { input }: Record<string, string> = this.state;
+    const { input } = this.state;
     this.props.onSearch(input.trim());
   };
 
+  handleError = () => this.setState({ isError: true });
+
   render() {
-    return (
-      <section className="search">
-        <div className="search-inner">
-          <Input
-            value={this.state.input}
-            type="text"
-            className="search-inner__input"
-            placeholder="Type planet to search..."
-            onChange={this.handleChange}
-          />
-          <Button className="search-inner__button" onClick={this.handleClick} name="Search" />
-          {/* <Button
-            className="search-inner__button-error"
-            onClick={this.handleErrorClick}
-            name="Error"
-          /> */}
-        </div>
-      </section>
-    );
+    const { isError } = this.state;
+    if (isError) {
+      throw new Error('I crashed!');
+    } else {
+      return (
+        <section className="search">
+          <div className="search-inner">
+            <Input
+              value={this.state.input}
+              type="text"
+              className="search-inner__input"
+              placeholder="Type planet to search..."
+              onChange={this.handleChange}
+            />
+            <Button className="search-inner__button" onClick={this.handleClick} name="Search" />
+            <button className="search-inner__button-error" onClick={this.handleError}>
+              Error!
+            </button>
+          </div>
+        </section>
+      );
+    }
   }
 }
 
