@@ -1,11 +1,7 @@
-import './header.css';
 import { Component } from 'react';
+import { HeaderProps } from './Header.type';
 
-type Props = {
-  name: string;
-};
-
-class Header extends Component<Props> {
+class Header extends Component<HeaderProps> {
   render() {
     return (
       <header>

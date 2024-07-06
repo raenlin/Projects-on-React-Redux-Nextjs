@@ -1,36 +1,35 @@
 import { Component } from 'react';
-
-type CardProp = {
-  innerClassName: string;
-  className: string;
-  name: string;
-  rotation_period: string;
-  orbital_period: string;
-  diameter: string;
-  climate: string;
-  gravity: string;
-  terrain: string;
-  surface_water: string;
-  population: string;
-  created: string;
-};
+import { CardProp } from './Card.type';
 
 class Card extends Component<CardProp> {
   render() {
+    const { innerClassName, className, item } = this.props;
+    const {
+      name,
+      diameter,
+      rotation_period,
+      orbital_period,
+      climate,
+      gravity,
+      population,
+      surface_water,
+      created,
+      terrain,
+    } = item;
     return (
-      <li className={this.props.className}>
-        <div className={this.props.innerClassName}>
-          <h2>{this.props.name}</h2>
+      <li className={className}>
+        <div className={innerClassName}>
+          <h2>{name}</h2>
           <div>
-            <p>Diameter: {this.props.diameter}</p>
-            <p>Rotation-period: {this.props.rotation_period}</p>
-            <p>Orbital-period: {this.props.orbital_period}</p>
-            <p>Climate: {this.props.climate}</p>
-            <p>Terrain: {this.props.terrain}</p>
-            <p>Gravity: {this.props.gravity}</p>
-            <p>Population: {this.props.population}</p>
-            <p>Surface-water: {this.props.surface_water}</p>
-            <p>Created: {this.props.created}</p>
+            <p>Diameter: {diameter}</p>
+            <p>Rotation-period: {rotation_period}</p>
+            <p>Orbital-period: {orbital_period}</p>
+            <p>Climate: {climate}</p>
+            <p>Terrain: {terrain}</p>
+            <p>Gravity: {gravity}</p>
+            <p>Population: {population}</p>
+            <p>Surface-water: {surface_water}</p>
+            <p>Created: {created}</p>
           </div>
         </div>
       </li>

@@ -1,21 +1,12 @@
 import './App.css';
 import { Component } from 'react';
-import Header from './view/Header/header';
-import Search from './view/Search/search';
-import Main from './view/Main/main';
-import { Planet } from './utils/types';
+import Header from './view/Header/Header';
+import Search from './view/Search/Search';
+import Main from './view/Main/Main';
 import { fetchData } from './services/api';
 import ErrorBoundary from './components/Errorboundary';
-import Footer from './view/Footer/footer';
-
-type AppProps = Record<string, never>;
-
-type SearchProps = {
-  searchInput: string;
-  items: Planet[];
-  error: Error | null;
-  isFetching: boolean;
-};
+import Footer from './view/Footer/Footer';
+import { AppProps, SearchProps } from './App.type';
 
 class App extends Component<AppProps, SearchProps> {
   constructor(props: AppProps) {
@@ -62,24 +53,22 @@ class App extends Component<AppProps, SearchProps> {
     const { error, isFetching } = this.state;
     if (error) {
       return <p>Error {error.message}</p>;
-    } else if (isFetching) {
-      return (
-        <>
-          <Header name="Star Wars Planets" />
-          <Search onSearch={this.handleFetchData} />
-          <div className="loader"></div>
-        </>
-      );
-    } else {
-      return (
-        <ErrorBoundary>
-          <Header name="Star Wars Planets" />
-          <Search onSearch={this.handleFetchData} />
-          <Main items={this.state.items} />
-          <Footer />
-        </ErrorBoundary>
-      );
     }
+
+    return (
+      <ErrorBoundary>
+        <Header name="Star Wars Planets" />
+        <Search onSearch={this.handleFetchData} />
+        {isFetching ? (
+          <div className="loader"></div>
+        ) : (
+          <>
+            <Main items={this.state.items} />
+            <Footer />
+          </>
+        )}
+      </ErrorBoundary>
+    );
   }
 }
 

@@ -1,10 +1,5 @@
 import { Component } from 'react';
-
-type ButtonProp = {
-  className: string;
-  onClick: () => void;
-  name: string;
-};
+import { ButtonProp } from './Button.type';
 
 class Button extends Component<ButtonProp> {
   constructor(props: ButtonProp) {

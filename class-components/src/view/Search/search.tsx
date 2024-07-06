@@ -1,17 +1,9 @@
-import './search.css';
+import './Search.css';
 import { Component } from 'react';
 import { ChangeEvent } from 'react';
-import Button from '../../components/button';
-import Input from '../../components/input';
-
-type InputProp = {
-  input: string;
-  isError?: boolean;
-};
-
-type SearchProp = {
-  onSearch: (input: string) => void;
-};
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import { InputProp, SearchProp } from './Search.type';
 
 class Search extends Component<SearchProp, InputProp> {
   constructor(props: SearchProp) {
@@ -29,6 +21,7 @@ class Search extends Component<SearchProp, InputProp> {
   handleClick = () => {
     const { input } = this.state;
     this.props.onSearch(input.trim());
+    this.setState({ input: '' });
   };
 
   handleError = () => this.setState({ isError: true });
