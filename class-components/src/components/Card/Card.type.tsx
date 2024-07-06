@@ -1,4 +1,4 @@
-import { Planet } from '../utils/types';
+import { Planet } from '../../utils/types';
 
 export type CardProp = {
   className: string;

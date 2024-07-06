@@ -1,6 +1,6 @@
 import './Main.css';
 import { Component } from 'react';
-import Card from '../../components/Card';
+import Card from '../../components/Card/Card';
 import { MainProps } from './Main.type';
 
 class Main extends Component<MainProps> {
