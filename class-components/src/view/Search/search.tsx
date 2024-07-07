@@ -1,54 +1,44 @@
 import './Search.css';
-import { Component } from 'react';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
-import { InputProp, SearchProp } from './Search.type';
+import { SearchProp } from './Search.type';
 
-class Search extends Component<SearchProp, InputProp> {
-  constructor(props: SearchProp) {
-    super(props);
-    this.state = {
-      input: '',
-      isError: false,
-    };
-  }
+function Search({ onSearch }: SearchProp) {
+  const [input, setInput] = useState('');
+  const [error, setError] = useState(false);
 
-  handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ input: event.target.value });
+  const handleClick = () => {
+    onSearch(input.trim());
+    setInput('');
   };
 
-  handleClick = () => {
-    const { input } = this.state;
-    this.props.onSearch(input.trim());
-    this.setState({ input: '' });
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value);
   };
 
-  handleError = () => this.setState({ isError: true });
+  const handleError = () => setError(true);
 
-  render() {
-    const { isError } = this.state;
-    if (isError) {
-      throw new Error('I crashed!');
-    } else {
-      return (
-        <section className="search">
-          <div className="search-inner">
-            <Input
-              value={this.state.input}
-              type="text"
-              className="search-inner__input"
-              placeholder="Type planet to search..."
-              onChange={this.handleChange}
-            />
-            <Button className="search-inner__button" onClick={this.handleClick} name="Search" />
-            <button className="search-inner__button-error" onClick={this.handleError}>
-              Error!
-            </button>
-          </div>
-        </section>
-      );
-    }
+  if (error) {
+    throw new Error('I crashed!');
+  } else {
+    return (
+      <section className="search">
+        <div className="search-inner">
+          <Input
+            value={input}
+            type="text"
+            className="search-inner__input"
+            placeholder="Type planet to search..."
+            onChange={handleChange}
+          />
+          <Button className="search-inner__button" onClick={handleClick} name="Search" />
+          <button className="search-inner__button-error" onClick={handleError}>
+            Error!
+          </button>
+        </div>
+      </section>
+    );
   }
 }
 

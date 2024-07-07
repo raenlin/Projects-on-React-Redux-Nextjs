@@ -6,5 +6,5 @@ export type SearchProps = {
   searchInput: string;
   items: Planet[];
   error: Error | null;
-  isFetching: boolean;
+  fetching: boolean;
 };
