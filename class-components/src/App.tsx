@@ -3,15 +3,24 @@ import { useState, useEffect } from 'react';
 import Header from './view/Header/Header';
 import Search from './view/Search/Search';
 import Main from './view/Main/Main';
-import { fetchData } from './services/api';
+import { fetchData, fetchPages } from './services/api';
 import ErrorBoundary from './components/Errorboundary';
 import Footer from './view/Footer/Footer';
 import { Planet } from './utils/types';
+import { pagePlanetsCount } from './utils/constants';
 
 export function App() {
   const [items, setItems] = useState<Planet[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [fetching, setFetching] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [planetsCount, setPlanetsCount] = useState<number>(1);
+
+  const pagesCount = Math.ceil(planetsCount / pagePlanetsCount);
+  const pages: number[] = [];
+  for (let i = 1; i <= pagesCount; i++) {
+    pages.push(i);
+  }
 
   const handleFetchData = async (searchInput: string) => {
     try {
@@ -28,14 +37,29 @@ export function App() {
     }
   };
 
+  const handleFetchPages = async (currentPage: number) => {
+    try {
+      setFetching(true);
+      const data = await fetchPages(currentPage);
+      setItems(data.results);
+      setPlanetsCount(Number(data.count));
+      setError(null);
+    } catch (error) {
+      setItems([]);
+      setError(error as Error);
+    } finally {
+      setFetching(false);
+    }
+  };
+
   useEffect(() => {
     const savedSearch = localStorage.getItem('searchPlanet');
     if (savedSearch) {
       handleFetchData(savedSearch);
     } else {
-      handleFetchData('');
+      handleFetchPages(currentPage);
     }
-  }, []);
+  }, [currentPage]);
 
   if (error) {
     return <p>Error {error.message}</p>;
@@ -49,7 +73,12 @@ export function App() {
         <div className="loader"></div>
       ) : (
         <>
-          <Main items={items} />
+          <Main
+            items={items}
+            pages={pages}
+            currentPage={currentPage}
+            handlePageCount={setCurrentPage}
+          />
           <Footer />
         </>
       )}

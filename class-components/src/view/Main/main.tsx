@@ -2,7 +2,7 @@ import './Main.css';
 import Card from '../../components/Card/Card';
 import { MainProps } from './Main.type';
 
-function Main({ items }: MainProps) {
+function Main({ items, pages, currentPage, handlePageCount }: MainProps) {
   return (
     <section className="main">
       <ul className="main-list">
@@ -15,6 +15,21 @@ function Main({ items }: MainProps) {
           />
         ))}
       </ul>
+      <div className="pagination">
+        <ul className="pagination-list">
+          {pages.map((page) => (
+            <li
+              key={page}
+              className={
+                currentPage === page ? 'pagination-list__item active' : 'pagination-list__item'
+              }
+              onClick={() => handlePageCount(page)}
+            >
+              {page}
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }
