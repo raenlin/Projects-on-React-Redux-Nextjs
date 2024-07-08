@@ -1,4 +1,4 @@
-import './Main.css';
+import './main.css';
 import { Component } from 'react';
 import Card from '../../components/card';
 import { MainProps } from './Main.type';
