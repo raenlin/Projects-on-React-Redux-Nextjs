@@ -1,11 +1,11 @@
 import './App.css';
 import { Component } from 'react';
-import Header from './view/Header/Header';
-import Search from './view/Search/Search';
-import Main from './view/Main/Main';
+import Header from './view/Header/header';
+import Search from './view/Search/search';
+import Main from './view/Main/main';
 import { fetchData } from './services/api';
 import ErrorBoundary from './components/Errorboundary';
-import Footer from './view/Footer/Footer';
+import Footer from './view/Footer/footer';
 import { AppProps, SearchProps } from './App.type';
 
 class App extends Component<AppProps, SearchProps> {
