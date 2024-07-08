@@ -10,6 +10,7 @@ import { Planet } from './utils/types';
 import { pagePlanetsCount } from './utils/constants';
 
 export function App() {
+  const [searchInput, setSearchInput] = useState<string>('');
   const [items, setItems] = useState<Planet[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [fetching, setFetching] = useState(false);
@@ -26,6 +27,8 @@ export function App() {
     try {
       setFetching(true);
       const data = await fetchData(searchInput);
+      setSearchInput(searchInput.trim());
+      setCurrentPage(1);
       setItems(data);
       setError(null);
       localStorage.setItem('searchPlanet', searchInput.trim());
@@ -56,9 +59,8 @@ export function App() {
     const savedSearch = localStorage.getItem('searchPlanet');
     if (savedSearch) {
       handleFetchData(savedSearch);
-    } else {
-      handleFetchPages(currentPage);
     }
+    handleFetchPages(currentPage);
   }, [currentPage]);
 
   if (error) {
@@ -75,7 +77,7 @@ export function App() {
         <>
           <Main
             items={items}
-            pages={pages}
+            pages={searchInput ? [] : pages}
             currentPage={currentPage}
             handlePageCount={setCurrentPage}
           />
