@@ -1,11 +1,11 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import Header from './view/Header/Header';
-import Search from './view/Search/Search';
-import Main from './view/Main/Main';
+import Header from './view/Header/header';
+import Search from './view/Search/search';
+import Main from './view/Main/main';
 import { fetchData, fetchPages } from './services/api';
 import ErrorBoundary from './components/Errorboundary';
-import Footer from './view/Footer/Footer';
+import Footer from './view/Footer/footer';
 import { Planet } from './utils/types';
 import { pagePlanetsCount } from './utils/constants';
 
@@ -18,10 +18,7 @@ export function App() {
   const [planetsCount, setPlanetsCount] = useState<number>(1);
 
   const pagesCount = Math.ceil(planetsCount / pagePlanetsCount);
-  const pages: number[] = [];
-  for (let i = 1; i <= pagesCount; i++) {
-    pages.push(i);
-  }
+  const pages: number[] = searchInput ? [] : Array.from({ length: pagesCount }, (_, i) => i + 1);
 
   const handleFetchData = async (searchInput: string) => {
     try {
@@ -77,7 +74,7 @@ export function App() {
         <>
           <Main
             items={items}
-            pages={searchInput ? [] : pages}
+            pages={pages}
             currentPage={currentPage}
             handlePageCount={setCurrentPage}
           />
