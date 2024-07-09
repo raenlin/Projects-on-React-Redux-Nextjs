@@ -1,4 +1,4 @@
-import './Search.css';
+import './search.css';
 import { Component } from 'react';
 import { ChangeEvent } from 'react';
 import Button from '../../components/button';
