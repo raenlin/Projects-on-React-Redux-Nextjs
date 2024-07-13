@@ -8,6 +8,10 @@ import ErrorBoundary from './components/Errorboundary';
 import Footer from './view/Footer/footer';
 import { Planet } from './utils/types';
 import { pagePlanetsCount } from './utils/constants';
+import { Route, Routes } from 'react-router-dom';
+import { NotFound } from './view/404/404';
+import { Pagination } from './components/Pagination/pagination';
+import CardDetails from './components/Card/CardDetail';
 
 export function App() {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -56,8 +60,9 @@ export function App() {
     const savedSearch = localStorage.getItem('searchPlanet');
     if (savedSearch) {
       handleFetchData(savedSearch);
+    } else {
+      handleFetchPages(currentPage);
     }
-    handleFetchPages(currentPage);
   }, [currentPage]);
 
   if (error) {
@@ -71,16 +76,25 @@ export function App() {
       {fetching ? (
         <div className="loader"></div>
       ) : (
-        <>
-          <Main
-            items={items}
-            pages={pages}
-            currentPage={currentPage}
-            handlePageCount={setCurrentPage}
-          />
-          <Footer />
-        </>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Main
+                items={items}
+                pages={pages}
+                currentPage={currentPage}
+                handlePageCount={setCurrentPage}
+              />
+            }
+          >
+            <Route path="/search/:id" element={<CardDetails />}></Route>
+          </Route>
+          <Route path="/search/:id" element={<Pagination />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
       )}
+      <Footer />
     </ErrorBoundary>
   );
 }

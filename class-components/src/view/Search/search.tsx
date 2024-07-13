@@ -1,19 +1,24 @@
-import './Search.css';
+import './search.css';
 import { ChangeEvent, useState } from 'react';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { SearchProp } from './Search.type';
+import { useNavigate } from 'react-router-dom';
 
 function Search({ onSearch }: SearchProp) {
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
+  const [searchParams, setSearchParams] = useState('');
+  const navigate = useNavigate();
 
   const handleClick = () => {
     onSearch(input.trim());
+    navigate(`/search/${searchParams}`);
     setInput('');
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchParams(event.target.value);
     setInput(event.target.value);
   };
 
