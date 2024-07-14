@@ -9,5 +9,4 @@ export type Planet = {
   surface_water: string;
   population: string;
   created: string;
-  edited: string;
 };
