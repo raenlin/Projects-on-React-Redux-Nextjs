@@ -1,0 +1,11 @@
+.card-details {
+  width: 500px;
+}
+
+.card-details-close {
+  cursor: pointer;
+  height: 30px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+}

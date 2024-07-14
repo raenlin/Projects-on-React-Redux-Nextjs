@@ -1,5 +1,5 @@
 export type PaginationProps = {
-  className: string;
-  onClick: () => void;
-  page: number;
+  pages: number[];
+  currentPage: number;
+  handlePageCount: (page: number) => void;
 };

@@ -7,31 +7,20 @@ import { Outlet } from 'react-router-dom';
 function Main({ items, pages, currentPage, handlePageCount }: MainProps) {
   return (
     <section className="main">
-      <ul className="main-list">
-        {items.map((item) => (
-          <Card
-            key={item.name}
-            className="main-list__item"
-            innerClassName="main-list__item-inner"
-            item={item}
-          />
-        ))}
-      </ul>
-      <div className="pagination">
-        <ul className="pagination-list">
-          {pages.map((page) => (
-            <Pagination
-              key={page}
-              className={
-                currentPage === page ? 'pagination-list__item active' : 'pagination-list__item'
-              }
-              onClick={() => handlePageCount(page)}
-              page={page}
+      <div className="main-list__wrapper">
+        <ul className="main-list">
+          {items.map((item) => (
+            <Card
+              key={item.name}
+              className="main-list__item"
+              innerClassName="main-list__item-inner"
+              item={item}
             />
           ))}
         </ul>
+        <Outlet />
       </div>
-      <Outlet />
+      <Pagination pages={pages} currentPage={currentPage} handlePageCount={handlePageCount} />
     </section>
   );
 }

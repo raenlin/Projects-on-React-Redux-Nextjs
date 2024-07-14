@@ -10,7 +10,6 @@ import { Planet } from './utils/types';
 import { pagePlanetsCount } from './utils/constants';
 import { Route, Routes } from 'react-router-dom';
 import { NotFound } from './view/404/404';
-import { Pagination } from './components/Pagination/pagination';
 import CardDetails from './components/Card/CardDetail';
 
 export function App() {
@@ -29,10 +28,8 @@ export function App() {
       setFetching(true);
       const data = await fetchData(searchInput);
       setSearchInput(searchInput.trim());
-      setCurrentPage(1);
       setItems(data);
       setError(null);
-      localStorage.setItem('searchPlanet', searchInput.trim());
     } catch (error) {
       setItems([]);
       setError(error as Error);
@@ -57,12 +54,7 @@ export function App() {
   };
 
   useEffect(() => {
-    const savedSearch = localStorage.getItem('searchPlanet');
-    if (savedSearch) {
-      handleFetchData(savedSearch);
-    } else {
-      handleFetchPages(currentPage);
-    }
+    handleFetchPages(currentPage);
   }, [currentPage]);
 
   if (error) {
@@ -72,7 +64,7 @@ export function App() {
   return (
     <ErrorBoundary>
       <Header name="Star Wars Planets" />
-      <Search onSearch={handleFetchData} />
+      <Search onSearch={handleFetchData} currentPage={setCurrentPage} />
       {fetching ? (
         <div className="loader"></div>
       ) : (
@@ -88,9 +80,8 @@ export function App() {
               />
             }
           >
-            <Route path="/search/:id" element={<CardDetails />}></Route>
+            <Route path="/planets/:id" element={<CardDetails />}></Route>
           </Route>
-          <Route path="/search/:id" element={<Pagination />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       )}
