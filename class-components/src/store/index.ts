@@ -1,5 +1,15 @@
-// import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
+// import searchReducer from './searchSlice';
+import selectedItemsReducer from './selectedItemsSlice';
 
-// export default configureStore({
-//   reducer
-// })
+export const store = configureStore({
+  // reducer: {
+  //   search: searchReducer,
+  // },
+  reducer: {
+    selectedItems: selectedItemsReducer,
+  },
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
