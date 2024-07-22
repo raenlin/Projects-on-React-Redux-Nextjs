@@ -6,7 +6,7 @@ import { SearchProp } from './Search.type';
 import { useNavigate } from 'react-router-dom';
 import { useSearchQuery } from '../../utils/localStorageHook';
 
-function Search({ onSearch, currentPage }: SearchProp) {
+function Search({ onSearch, setquery }: SearchProp) {
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
   const [searchParams, setSearchParams] = useState('');
@@ -22,8 +22,9 @@ function Search({ onSearch, currentPage }: SearchProp) {
       navigate(`/planets/${searchParams}`);
     } else {
       onSearch('');
-      currentPage(1);
-      navigate('/');
+      const defaultQuery = { search: '', page: 1 };
+      setquery(defaultQuery);
+      navigate(`/?search=${defaultQuery.search}&page=${defaultQuery.page}`);
     }
     setInput('');
   };

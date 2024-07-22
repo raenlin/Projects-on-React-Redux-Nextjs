@@ -1,5 +1,5 @@
 export const fetchData = async (searchInput: string) => {
-  const response = await fetch(`https://swapi.dev/api/planets?search=${searchInput}`);
+  const response = await fetch(`https://swapi.dev/api/planets/?search=${searchInput}`);
 
   if (!response.ok) {
     throw new Error('Error fetching planet data');

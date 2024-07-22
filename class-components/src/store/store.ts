@@ -1,14 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-// import searchReducer from './searchSlice';
 import selectedItemsReducer from './selectedItemsSlice';
+import { planetsApi } from './planetsApi';
 
 export const store = configureStore({
-  // reducer: {
-  //   search: searchReducer,
-  // },
   reducer: {
     selectedItems: selectedItemsReducer,
+    [planetsApi.reducerPath]: planetsApi.reducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(planetsApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

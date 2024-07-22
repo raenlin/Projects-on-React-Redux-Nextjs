@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CardProp } from './Card.type';
 import { Link } from 'react-router-dom';
 import { selectItem, unselectItem } from '../../store/selectedItemsSlice';
-import { AppDispatch, RootState } from '../../store';
+import { AppDispatch, RootState } from '../../store/store';
 
 function Card({ innerClassName, className, item }: CardProp) {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,9 +11,9 @@ function Card({ innerClassName, className, item }: CardProp) {
 
   const handleCheckboxChange = (item: string) => {
     if (selectedItems.includes(item)) {
-      dispatch(unselectItem(item));
+      dispatch(unselectItem({ item }));
     } else {
-      dispatch(selectItem(item));
+      dispatch(selectItem({ item }));
     }
   };
 

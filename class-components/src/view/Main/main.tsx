@@ -4,7 +4,7 @@ import { MainProps } from './Main.type';
 import { Pagination } from '../../components/Pagination/pagination';
 import { Outlet } from 'react-router-dom';
 
-function Main({ items, pages, currentPage, handlePageCount }: MainProps) {
+function Main({ items, pages, setquery, query }: MainProps) {
   return (
     <section className="main">
       <div className="main-list__wrapper">
@@ -20,7 +20,7 @@ function Main({ items, pages, currentPage, handlePageCount }: MainProps) {
         </ul>
         <Outlet />
       </div>
-      <Pagination pages={pages} currentPage={currentPage} handlePageCount={handlePageCount} />
+      <Pagination pages={pages} setquery={setquery} query={query} />
     </section>
   );
 }
