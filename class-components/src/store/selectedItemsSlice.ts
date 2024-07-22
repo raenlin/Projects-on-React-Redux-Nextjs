@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: string[] = [];
-type actionType = {
+const initialState: Record<string, string>[] = [];
+type ActionType = {
   payload: Record<string, string>;
   type: string;
 };
@@ -10,11 +10,11 @@ const selectedItemsSlice = createSlice({
   name: 'selectedItems',
   initialState,
   reducers: {
-    selectItem(state, action: actionType) {
-      state.push(action.payload.item);
+    selectItem(state, action: ActionType) {
+      state.push(action.payload);
     },
-    unselectItem(state, action: actionType) {
-      return state.filter((item) => item !== action.payload.item);
+    unselectItem(state, action: ActionType) {
+      return state.filter((item) => item.name !== action.payload.name);
     },
   },
 });

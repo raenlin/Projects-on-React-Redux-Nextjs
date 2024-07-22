@@ -9,11 +9,11 @@ function Card({ innerClassName, className, item }: CardProp) {
   const selectedItems = useSelector((state: RootState) => state.selectedItems);
   const { name } = item;
 
-  const handleCheckboxChange = (item: string) => {
+  const handleCheckboxChange = (item: Record<string, string>) => {
     if (selectedItems.includes(item)) {
-      dispatch(unselectItem({ item }));
+      dispatch(unselectItem(item));
     } else {
-      dispatch(selectItem({ item }));
+      dispatch(selectItem(item));
     }
   };
 
@@ -22,8 +22,8 @@ function Card({ innerClassName, className, item }: CardProp) {
       <input
         className="card-checkbox"
         type="checkbox"
-        checked={selectedItems.includes(item.name)}
-        onChange={() => handleCheckboxChange(item.name)}
+        checked={selectedItems.includes(item)}
+        onChange={() => handleCheckboxChange(item)}
       />
       <li className={className}>
         <Link key={item.name} to={`/planets/${item.name}`}>
