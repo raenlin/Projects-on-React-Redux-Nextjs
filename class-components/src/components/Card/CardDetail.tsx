@@ -1,50 +1,32 @@
 import './CardDetail.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { Planet } from '../../utils/types';
-import { fetchData } from '../../services/api';
+import { planetsApi } from '../../store/planetsApi';
 
 function CardDetails() {
   const { id } = useParams<{ id: string }>();
-  const [items, setItems] = useState<Planet[]>([]);
-  const [error, setError] = useState<Error | null>(null);
-  const [fetching, setFetching] = useState(false);
+
+  const { data, error, isLoading } = planetsApi.useGetPlanetsQuery({
+    search: id ? id : '',
+  });
+  const items: Planet[] = data ? data.results : [];
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/');
+    navigate(`/?search=&page=1`);
   };
-
-  useEffect(() => {
-    const fetchItem = async () => {
-      if (id) {
-        try {
-          setFetching(true);
-          const data = await fetchData(id);
-          setItems(data);
-          setError(null);
-        } catch (error) {
-          setItems([]);
-          setError(error as Error);
-        } finally {
-          setFetching(false);
-        }
-      }
-    };
-    fetchItem();
-  }, [id]);
 
   if (!items) {
     return;
   }
 
   if (error) {
-    return <p>Error {error.message}</p>;
+    return <p>Error</p>;
   }
 
   return (
     <>
-      {fetching ? (
+      {isLoading ? (
         <div className="loader"></div>
       ) : (
         <div className="card-details">

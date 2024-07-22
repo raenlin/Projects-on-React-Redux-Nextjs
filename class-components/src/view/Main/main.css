@@ -1,6 +1,7 @@
 .main-list__wrapper {
   display: flex;
   justify-content: space-evenly;
+  margin-bottom: 20px;
 }
 
 .card {

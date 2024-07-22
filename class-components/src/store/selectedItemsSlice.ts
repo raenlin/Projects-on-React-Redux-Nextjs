@@ -1,17 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export type SelectedItemsState = string[];
-const initialState: SelectedItemsState = [];
+const initialState: string[] = [];
+type actionType = {
+  payload: Record<string, string>;
+  type: string;
+};
 
 const selectedItemsSlice = createSlice({
   name: 'selectedItems',
   initialState,
   reducers: {
-    selectItem(state, action) {
+    selectItem(state, action: actionType) {
       state.push(action.payload.item);
     },
-    unselectItem(state, action) {
-      return state.filter((item) => item !== action.payload);
+    unselectItem(state, action: actionType) {
+      return state.filter((item) => item !== action.payload.item);
     },
   },
 });

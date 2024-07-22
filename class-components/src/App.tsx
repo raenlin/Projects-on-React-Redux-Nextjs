@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQueryParams, StringParam, NumberParam } from 'use-query-params';
 import Header from './view/Header/header';
 import Search from './view/Search/search';
@@ -33,10 +33,6 @@ export function App() {
   const handleFetchData = (searchInput: string) => {
     setSearchInput(searchInput.trim());
   };
-
-  useEffect(() => {
-    setQuery({ page: 1 });
-  }, []);
 
   if (error) {
     return <p>Error</p>;
