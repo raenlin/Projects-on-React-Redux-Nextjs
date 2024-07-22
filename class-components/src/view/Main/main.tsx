@@ -21,7 +21,9 @@ function Main({ items, pages, setquery, query }: MainProps) {
         </ul>
         <Outlet />
       </div>
-      {location.pathname === '/' && <Pagination pages={pages} setquery={setquery} query={query} />}
+      {location.pathname === '/' && (
+        <Pagination pages={pages} setquery={setquery} query={query} items={items} />
+      )}
     </section>
   );
 }
