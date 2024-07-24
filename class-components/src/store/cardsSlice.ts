@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Planet } from '../utils/types';
 
-type CardsState = {
+export type CardsState = {
   page: Planet[];
   selectedCards: Planet[];
 };
