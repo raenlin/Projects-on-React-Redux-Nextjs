@@ -1,3 +1,7 @@
+.main {
+  color: #fff5ee;
+}
+
 .main-list__wrapper {
   display: flex;
   justify-content: space-evenly;
@@ -32,6 +36,10 @@
   border: 1px solid #fff5ee;
   text-align: center;
   transition: box-shadow 0.5s ease;
+}
+
+.main-list__item-dark {
+  background-color: #37044f;
 }
 
 .main-list__item:hover {

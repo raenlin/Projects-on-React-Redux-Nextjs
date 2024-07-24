@@ -5,4 +5,5 @@ export type MainProps = {
   pages: number[];
   setquery: (params: { searchInput?: string; page?: number }) => void;
   query: number | null | undefined;
+  theme: string;
 };

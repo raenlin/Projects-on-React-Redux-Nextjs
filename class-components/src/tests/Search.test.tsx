@@ -1,69 +1,52 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import Search from '../view/Search/search';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { expect, test, vi } from 'vitest';
+import Search from '../view/Search/search';
 
-const mockOnSearch = vi.fn();
-const mockCurrentPage = vi.fn();
-const mockNavigate = vi.fn();
-
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual: typeof import('react-router-dom') = await importOriginal();
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  };
-});
-
-vi.mock('./hooks', () => ({
-  useSearchQuery: (key: string, initialValue: string) => {
-    const [query, setQuery] = React.useState(localStorage.getItem(key) || initialValue);
-    const setLocalStorageValue = (value: string) => {
-      localStorage.setItem(key, value);
-      setQuery(value);
-    };
-    return [query, setQuery, setLocalStorageValue];
-  },
+vi.mock('../../utils/localStorageHook', () => ({
+  useSearchQuery: vi.fn().mockReturnValue(['', vi.fn(), vi.fn()]),
 }));
 
-describe('<Search />', () => {
-  beforeEach(() => {
-    localStorage.clear();
-    mockOnSearch.mockClear();
-    mockCurrentPage.mockClear();
-    mockNavigate.mockClear();
-  });
+describe('Search Component', () => {
+  const mockOnSearch = vi.fn();
+  const mockSetQuery = vi.fn();
 
-  it('saves the entered value to the local storage when clicking the Search button', async () => {
+  beforeEach(() => {
     render(
       <MemoryRouter>
-        <Search onSearch={mockOnSearch} currentPage={mockCurrentPage} />
+        <Search onSearch={mockOnSearch} setquery={mockSetQuery} />
       </MemoryRouter>
     );
+  });
 
-    const input = screen.getByPlaceholderText('Type planet to search...');
-    const button = screen.getByText('Search');
+  test('renders Search component', () => {
+    expect(screen.getByPlaceholderText('Type planet to search...')).toBeInTheDocument();
+    expect(screen.getByText('Search')).toBeInTheDocument();
+  });
+
+  test('updates input value on change', () => {
+    const input = screen.getByPlaceholderText<HTMLInputElement>('Type planet to search...');
 
     fireEvent.change(input, { target: { value: 'Tatooine' } });
-    fireEvent.click(button);
 
-    await waitFor(() => {
-      expect(localStorage.getItem('searchPlanet')).toBe('Tatooine');
-    });
+    expect(input.value).toBe('Tatooine');
   });
 
-  it('retrieves the value from the local storage upon mounting', async () => {
-    localStorage.setItem('searchPlanet', 'Tatooine');
+  test('calls onSearch and navigates on button click', () => {
+    const input = screen.getByPlaceholderText('Type planet to search...');
+    fireEvent.change(input, { target: { value: 'Tatooine' } });
 
-    render(
-      <MemoryRouter>
-        <Search onSearch={mockOnSearch} currentPage={mockCurrentPage} />
-      </MemoryRouter>
-    );
+    const searchButton = screen.getByText('Search');
+    fireEvent.click(searchButton);
 
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('Type planet to search...')).toHaveValue('Tatooine');
-    });
+    expect(mockOnSearch).toHaveBeenCalledWith('Tatooine');
+  });
+
+  test('fires error on button click', () => {
+    const errorButton = screen.getByText('Error!');
+
+    expect(() => {
+      fireEvent.click(errorButton);
+    }).toThrow('I crashed!');
   });
 });

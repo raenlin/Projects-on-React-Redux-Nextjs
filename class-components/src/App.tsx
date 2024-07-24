@@ -12,9 +12,12 @@ import { Route, Routes } from 'react-router-dom';
 import { NotFound } from './view/404/404';
 import CardDetails from './components/Card/CardDetail';
 import { planetsApi } from './store/planetsApi';
+import { ThemeContext } from './contexts/theme';
+import { themes } from './contexts/theme';
 
 export function App() {
   const [searchInput, setSearchInput] = useState<string>('');
+  const [theme, setTheme] = useState(themes.light);
   const [query, setQuery] = useQueryParams({
     search: StringParam,
     page: NumberParam,
@@ -34,28 +37,42 @@ export function App() {
     setSearchInput(searchInput.trim());
   };
 
+  const handleThemeChange = () => {
+    theme === themes.light ? setTheme(themes.dark) : setTheme(themes.light);
+  };
+
   if (error) {
     return <p>Error</p>;
   }
 
   return (
     <ErrorBoundary>
-      <Header name="Star Wars Planets" />
-      <Search onSearch={handleFetchData} setquery={setQuery} />
-      {isLoading ? (
-        <div className="loader"></div>
-      ) : (
-        <Routes>
-          <Route
-            path="/"
-            element={<Main items={items} pages={pages} setquery={setQuery} query={query.page} />}
-          >
-            <Route path="/planets/:id" element={<CardDetails />}></Route>
-          </Route>
-          <Route path="*" element={<NotFound />}></Route>
-        </Routes>
-      )}
-      <Footer />
+      <ThemeContext.Provider value={{ theme, handleThemeChange }}>
+        <Header name="Star Wars Planets" theme={theme} />
+        <Search onSearch={handleFetchData} setquery={setQuery} />
+        {isLoading ? (
+          <div className="loader"></div>
+        ) : (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main
+                  items={items}
+                  pages={pages}
+                  setquery={setQuery}
+                  query={query.page}
+                  theme={theme}
+                />
+              }
+            >
+              <Route path="/planets/:id" element={<CardDetails />}></Route>
+            </Route>
+            <Route path="*" element={<NotFound />}></Route>
+          </Routes>
+        )}
+        <Footer />
+      </ThemeContext.Provider>
     </ErrorBoundary>
   );
 }

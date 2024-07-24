@@ -2,7 +2,7 @@ body {
   font-family: 'Bona Nova SC', serif;
   font-weight: 400;
   font-style: normal;
-  color: #fff5ee;
+  /* color: #fff5ee; */
   overflow-x: hidden;
   background-image: url('../src/assets/purple-universe-wallpaper.jpg');
   background-size: cover;

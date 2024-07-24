@@ -1,0 +1,20 @@
+.header-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-button {
+  cursor: pointer;
+  height: 25px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+}
+
+.theme-button__dark {
+  color: #fff5ee;
+  background-color: #37044f;
+}

@@ -1,5 +1,5 @@
 import './search.css';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { SearchProp } from './Search.type';
@@ -28,10 +28,6 @@ function Search({ onSearch, setquery }: SearchProp) {
     }
     setInput('');
   };
-
-  useEffect(() => {
-    handleClick();
-  }, []);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchParams(event.target.value);
