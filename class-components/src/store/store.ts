@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import selectedItemsReducer from './selectedItemsSlice';
+import cardsSliceReducer from './cardsSlice';
 import { planetsApi } from './planetsApi';
 
 export const store = configureStore({
   reducer: {
-    selectedItems: selectedItemsReducer,
+    cards: cardsSliceReducer,
     [planetsApi.reducerPath]: planetsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(planetsApi.middleware),

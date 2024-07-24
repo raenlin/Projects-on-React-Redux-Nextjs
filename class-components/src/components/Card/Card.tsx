@@ -1,17 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { CardProp } from './Card.type';
 import { Link, useLocation } from 'react-router-dom';
-import { selectItem, unselectItem } from '../../store/selectedItemsSlice';
+import { selectItem, unselectItem } from '../../store/cardsSlice';
 import { AppDispatch, RootState } from '../../store/store';
+import { Planet } from '../../utils/types';
 
 function Card({ innerClassName, className, item }: CardProp) {
   const dispatch = useDispatch<AppDispatch>();
-  const selectedItems = useSelector((state: RootState) => state.selectedItems);
+  const selectedCards = useSelector((state: RootState) => state.cards.selectedCards);
   const { name } = item;
   const location = useLocation();
+  const isSelected = selectedCards.some((selectedCard) => selectedCard.name === item.name);
 
-  const handleCheckboxChange = (item: Record<string, string>) => {
-    if (selectedItems.includes(item)) {
+  const handleCheckboxChange = (item: Planet) => {
+    if (isSelected) {
       dispatch(unselectItem(item));
     } else {
       dispatch(selectItem(item));
@@ -23,7 +25,7 @@ function Card({ innerClassName, className, item }: CardProp) {
       <input
         className="card-checkbox"
         type="checkbox"
-        checked={selectedItems.includes(item)}
+        checked={isSelected}
         onChange={() => handleCheckboxChange(item)}
       />
       <li className={className}>

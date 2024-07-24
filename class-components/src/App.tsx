@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQueryParams, StringParam, NumberParam } from 'use-query-params';
 import Header from './view/Header/header';
 import Search from './view/Search/search';
@@ -14,6 +14,9 @@ import CardDetails from './components/Card/CardDetail';
 import { planetsApi } from './store/planetsApi';
 import { ThemeContext } from './contexts/theme';
 import { themes } from './contexts/theme';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from './store/store';
+import { addItems } from './store/cardsSlice';
 
 export function App() {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -22,12 +25,19 @@ export function App() {
     search: StringParam,
     page: NumberParam,
   });
+  const dispatch = useDispatch<AppDispatch>();
 
   const { data, error, isLoading } = planetsApi.useGetPlanetsQuery({
     search: searchInput ? searchInput : '',
     page: query.page ? query.page : 1,
   });
   const items: Planet[] = data ? data.results : [];
+
+  useEffect(() => {
+    if (items.length > 0) {
+      dispatch(addItems(items));
+    }
+  }, [items]);
 
   const planetsCount: number = data ? data.count : 0;
   const pagesCount = Math.ceil(planetsCount / pagePlanetsCount);
