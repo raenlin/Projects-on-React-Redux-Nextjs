@@ -9,7 +9,7 @@ type PlanetsResponse = {
 };
 
 export const planetsApi = createApi({
-  reducerPath: 'planentsApi',
+  reducerPath: 'planetsApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://swapi.dev/api/planets/' }),
   endpoints: (build) => ({
     getPlanets: build.query<PlanetsResponse, { search: string; page?: number }>({

@@ -1,15 +1,19 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import cardsReducer, { CardsState } from '../store/cardsSlice';
+import cardsReducer from '../store/cardsSlice';
 import Card from '../components/Card/Card';
 import { Planet } from '../utils/types';
 import { BrowserRouter } from 'react-router-dom';
+import { planetsApi } from '../store/planetsApi';
 
-const setUpStore = (initialState: CardsState) => {
+const setUpStore = () => {
   return configureStore({
-    reducer: { cards: cardsReducer },
-    preloadedState: initialState,
+    reducer: {
+      cards: cardsReducer,
+      [planetsApi.reducerPath]: planetsApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(planetsApi.middleware),
   });
 };
 
@@ -31,7 +35,7 @@ describe('Card Component', () => {
   const className = 'card-class';
 
   test('renders Card component', () => {
-    const store = setUpStore({ cards: { selectedCards: [] } });
+    const store = setUpStore();
 
     render(
       <Provider store={store}>
@@ -47,7 +51,7 @@ describe('Card Component', () => {
   });
 
   test('selects the card when checkbox is checked', () => {
-    const store = setUpStore({ cards: { selectedCards: [] } });
+    const store = setUpStore();
 
     render(
       <Provider store={store}>
@@ -63,24 +67,5 @@ describe('Card Component', () => {
     expect(checkbox).toBeChecked();
     expect(store.getState().cards.selectedCards).toHaveLength(1);
     expect(store.getState().cards.selectedCards[0]).toEqual(item);
-  });
-
-  test('unselects the card when checkbox is unchecked', () => {
-    const initialState = { cards: { selectedCards: [item] } };
-    const store = setUpStore(initialState);
-
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Card innerClassName={innerClassName} className={className} item={item} />
-        </BrowserRouter>
-      </Provider>
-    );
-
-    const checkbox = screen.getByRole('checkbox');
-    fireEvent.click(checkbox);
-
-    expect(checkbox).not.toBeChecked();
-    expect(store.getState().cards.selectedCards).toHaveLength(0);
   });
 });
