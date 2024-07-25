@@ -64,8 +64,8 @@ export function App() {
     <ErrorBoundary>
       <ThemeContext.Provider value={{ theme, handleThemeChange }}>
         <div className={`${theme === 'light' ? 'wrapper wrapper-dark' : 'wrapper'}`}>
-          <Header name="Star Wars Planets" theme={theme} />
-          <Search onSearch={handleFetchData} setquery={setQuery} theme={theme} />
+          <Header name="Star Wars Planets" />
+          <Search onSearch={handleFetchData} setquery={setQuery} />
           {isLoading ? (
             <div className="loader"></div>
           ) : (

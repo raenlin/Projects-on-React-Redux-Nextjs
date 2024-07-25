@@ -2,9 +2,12 @@ import './CardDetail.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Planet } from '../../utils/types';
 import { planetsApi } from '../../store/planetsApi';
+import { useContext } from 'react';
+import { ThemeContext } from '../../contexts/theme';
 
 function CardDetails() {
   const { id } = useParams<{ id: string }>();
+  const { theme } = useContext(ThemeContext);
 
   const { data, error, isLoading } = planetsApi.useGetPlanetsQuery({
     search: id ? id : '',
@@ -46,7 +49,10 @@ function CardDetails() {
               </div>
             </div>
           ))}
-          <button onClick={handleClick} className="card-details-close">
+          <button
+            onClick={handleClick}
+            className={`${theme === 'light' ? 'card-details-close card-details-close__dark' : 'card-details-close'}`}
+          >
             Close
           </button>
         </div>
