@@ -31,3 +31,17 @@
   text-align: center;
   margin-top: 20%;
 }
+
+.wrapper {
+  color: #fff5ee;
+  overflow-x: hidden;
+  background-image: url('../src/assets/light.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.wrapper-dark {
+  background-image: url('../src/assets/dark.jpg');
+  color: #c5c3de;
+}

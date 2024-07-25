@@ -1,16 +1,19 @@
 import './search.css';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import { SearchProp } from './Search.type';
 import { useNavigate } from 'react-router-dom';
 import { useSearchQuery } from '../../utils/localStorageHook';
+import { ThemeContext } from '../../contexts/theme';
 
 function Search({ onSearch, setquery }: SearchProp) {
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
   const [searchParams, setSearchParams] = useState('');
   const [query, setQuery, setLocalStorageValue] = useSearchQuery('searchPlanet', '');
+
+  const { theme } = useContext(ThemeContext);
 
   const navigate = useNavigate();
 
@@ -46,11 +49,15 @@ function Search({ onSearch, setquery }: SearchProp) {
           <Input
             value={query}
             type="text"
-            className="search-inner__input"
+            className={`${theme === 'light' ? 'search-inner__input search-inner__input-dark' : 'search-inner__input'}`}
             placeholder="Type planet to search..."
             onChange={handleChange}
           />
-          <Button className="search-inner__button" onClick={handleClick} name="Search" />
+          <Button
+            className={`${theme === 'light' ? 'search-inner__button search-inner__button-dark' : 'search-inner__button'}`}
+            onClick={handleClick}
+            name="Search"
+          />
           <button className="search-inner__button-error" onClick={handleError}>
             Error!
           </button>

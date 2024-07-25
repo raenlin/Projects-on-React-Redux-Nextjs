@@ -8,9 +8,9 @@ function Header({ name }: HeaderProps) {
   return (
     <header>
       <div className="header-wrapper">
-        <h1>{name}</h1>
+        <h1 className={`${theme === 'light' ? 'heading heading-dark' : 'heading'}`}>{name}</h1>
         <button
-          className={`${theme === 'light' ? 'theme-button' : 'theme-button theme-button__dark'}`}
+          className={`${theme === 'light' ? 'theme-button theme-button__dark' : 'theme-button'}`}
           onClick={handleThemeChange}
         >
           {theme}
