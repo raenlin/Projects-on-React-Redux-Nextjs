@@ -20,12 +20,16 @@ import { addItems } from './store/cardsSlice';
 
 export function App() {
   const [searchInput, setSearchInput] = useState<string>('');
-  const [theme, setTheme] = useState(themes.dark);
+  const [theme, setTheme] = useState('');
   const [query, setQuery] = useQueryParams({
     search: StringParam,
     page: NumberParam,
   });
   const dispatch = useDispatch<AppDispatch>();
+  const savedTheme: string | null = localStorage.getItem('theme');
+  useEffect(() => {
+    savedTheme === 'light' ? setTheme(themes.dark) : setTheme(themes.light);
+  }, [setTheme]);
 
   const { data, error, isLoading } = planetsApi.useGetPlanetsQuery({
     search: searchInput ? searchInput : '',
@@ -48,6 +52,7 @@ export function App() {
   };
 
   const handleThemeChange = () => {
+    localStorage.setItem('theme', theme);
     theme === themes.light ? setTheme(themes.dark) : setTheme(themes.light);
   };
 
