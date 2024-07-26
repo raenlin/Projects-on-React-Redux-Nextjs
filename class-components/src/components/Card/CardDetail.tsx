@@ -1,12 +1,13 @@
 import './CardDetail.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Planet } from '../../utils/types';
-import { planetsApi } from '../../store/planetsApi';
 import { useContext } from 'react';
 import { ThemeContext } from '../../contexts/theme';
+import { Planet } from '../../utils/types';
+import { planetsApi } from '../../store/planetsApi';
 
 function CardDetails() {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams<{ id: string }>();
+  const id = params?.id;
   const { theme } = useContext(ThemeContext);
 
   const { data, error, isLoading } = planetsApi.useGetPlanetsQuery({
