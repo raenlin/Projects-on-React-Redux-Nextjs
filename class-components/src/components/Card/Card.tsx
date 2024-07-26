@@ -5,7 +5,7 @@ import { selectItem, unselectItem } from '../../store/cardsSlice';
 import { AppDispatch, RootState } from '../../store/store';
 import { Planet } from '../../utils/types';
 
-function Card({ innerClassName, className, item }: CardProp) {
+function Card({ innerClassName, className, item, setIsPopupVisible }: CardProp) {
   const dispatch = useDispatch<AppDispatch>();
   const selectedCards = useSelector((state: RootState) => state.cards.selectedCards);
   const { name } = item;
@@ -18,6 +18,9 @@ function Card({ innerClassName, className, item }: CardProp) {
     } else {
       dispatch(selectItem(item));
     }
+    setTimeout(() => {
+      setIsPopupVisible(true);
+    }, 500);
   };
 
   return (

@@ -4,4 +4,5 @@ export type CardProp = {
   className: string;
   innerClassName: string;
   item: Planet;
+  setIsPopupVisible: (param: boolean) => void;
 };

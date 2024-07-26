@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1721980770768" clover="3.2.0">
-  <project timestamp="1721980770769" name="All files">
-    <metrics statements="439" coveredstatements="371" conditionals="73" coveredconditionals="56" methods="33" coveredmethods="25" elements="545" coveredelements="452" complexity="0" loc="439" ncloc="439" packages="14" files="19" classes="19"/>
+<coverage generated="1722023418269" clover="3.2.0">
+  <project timestamp="1722023418269" name="All files">
+    <metrics statements="485" coveredstatements="393" conditionals="77" coveredconditionals="58" methods="35" coveredmethods="26" elements="597" coveredelements="477" complexity="0" loc="485" ncloc="485" packages="15" files="20" classes="20"/>
     <package name="src">
       <metrics statements="95" coveredstatements="59" conditionals="16" coveredconditionals="7" methods="4" coveredmethods="1"/>
       <file name="App.tsx" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/App.tsx">
@@ -150,9 +150,9 @@
       </file>
     </package>
     <package name="src.components.Card">
-      <metrics statements="87" coveredstatements="82" conditionals="18" coveredconditionals="13" methods="5" coveredmethods="4"/>
+      <metrics statements="90" coveredstatements="84" conditionals="18" coveredconditionals="13" methods="5" coveredmethods="4"/>
       <file name="Card.tsx" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/components/Card/Card.tsx">
-        <metrics statements="34" coveredstatements="33" conditionals="6" coveredconditionals="5" methods="3" coveredmethods="3"/>
+        <metrics statements="37" coveredstatements="35" conditionals="6" coveredconditionals="5" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -169,24 +169,27 @@
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="24" count="3" type="stmt"/>
-        <line num="25" count="3" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
         <line num="26" count="3" type="stmt"/>
         <line num="27" count="3" type="stmt"/>
         <line num="28" count="3" type="stmt"/>
-        <line num="29" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="29" count="3" type="stmt"/>
         <line num="30" count="3" type="stmt"/>
         <line num="31" count="3" type="stmt"/>
-        <line num="32" count="3" type="stmt"/>
+        <line num="32" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="33" count="3" type="stmt"/>
         <line num="34" count="3" type="stmt"/>
         <line num="35" count="3" type="stmt"/>
         <line num="36" count="3" type="stmt"/>
         <line num="37" count="3" type="stmt"/>
         <line num="38" count="3" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
         <line num="40" count="3" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="43" count="3" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
       </file>
       <file name="CardDetail.tsx" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/components/Card/CardDetail.tsx">
         <metrics statements="53" coveredstatements="49" conditionals="12" coveredconditionals="8" methods="2" coveredmethods="1"/>
@@ -291,6 +294,48 @@
         <line num="26" count="3" type="stmt"/>
       </file>
     </package>
+    <package name="src.components.Popup">
+      <metrics statements="36" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
+      <file name="Popup.tsx" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/components/Popup/Popup.tsx">
+        <metrics statements="36" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="4" type="cond" truecount="0" falsecount="1"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
+        <line num="40" count="4" type="stmt"/>
+        <line num="41" count="4" type="stmt"/>
+        <line num="42" count="4" type="stmt"/>
+      </file>
+    </package>
     <package name="src.contexts">
       <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="theme.ts" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/contexts/theme.ts">
@@ -340,16 +385,16 @@
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="15" count="4" type="stmt"/>
-        <line num="16" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="15" count="6" type="stmt"/>
+        <line num="16" count="6" type="cond" truecount="1" falsecount="0"/>
         <line num="17" count="4" type="stmt"/>
         <line num="18" count="4" type="stmt"/>
         <line num="19" count="4" type="cond" truecount="0" falsecount="1"/>
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="4" type="stmt"/>
-        <line num="23" count="4" type="stmt"/>
-        <line num="24" count="4" type="stmt"/>
+        <line num="23" count="6" type="stmt"/>
+        <line num="24" count="6" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
       </file>
       <file name="store.ts" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/store/store.ts">
@@ -445,34 +490,41 @@
       </file>
     </package>
     <package name="src.view.Main">
-      <metrics statements="25" coveredstatements="19" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+      <metrics statements="32" coveredstatements="25" conditionals="3" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="main.tsx" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/view/Main/main.tsx">
-        <metrics statements="25" coveredstatements="19" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="32" coveredstatements="25" conditionals="3" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
+        <line num="11" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
         <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.view.Search">

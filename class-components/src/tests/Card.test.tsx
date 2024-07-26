@@ -6,6 +6,7 @@ import Card from '../components/Card/Card';
 import { Planet } from '../utils/types';
 import { BrowserRouter } from 'react-router-dom';
 import { planetsApi } from '../store/planetsApi';
+import { vi } from 'vitest';
 
 const setUpStore = () => {
   return configureStore({
@@ -33,6 +34,7 @@ describe('Card Component', () => {
 
   const innerClassName = 'inner';
   const className = 'card-class';
+  const setIsPopupVisible = vi.fn();
 
   test('renders Card component', () => {
     const store = setUpStore();
@@ -40,7 +42,12 @@ describe('Card Component', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <Card innerClassName={innerClassName} className={className} item={item} />
+          <Card
+            setIsPopupVisible={setIsPopupVisible}
+            innerClassName={innerClassName}
+            className={className}
+            item={item}
+          />
         </BrowserRouter>
       </Provider>
     );
@@ -56,7 +63,12 @@ describe('Card Component', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <Card innerClassName={innerClassName} className={className} item={item} />
+          <Card
+            setIsPopupVisible={setIsPopupVisible}
+            innerClassName={innerClassName}
+            className={className}
+            item={item}
+          />
         </BrowserRouter>
       </Provider>
     );

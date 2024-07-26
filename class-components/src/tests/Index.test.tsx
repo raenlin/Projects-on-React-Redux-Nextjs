@@ -19,4 +19,10 @@ describe('App Component', () => {
     );
     expect(screen.getByText(/Star Wars Planets/i)).toBeInTheDocument();
   });
+
+  it('handles Redux state correctly', () => {
+    const initialCards = store.getState().cards.selectedCards;
+
+    expect(initialCards).toEqual([]);
+  });
 });
