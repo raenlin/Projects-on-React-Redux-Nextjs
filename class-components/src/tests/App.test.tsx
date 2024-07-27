@@ -7,13 +7,11 @@ import { MemoryRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
-vi.mock('./store/planetsApi', () => ({
-  planetsApi: {
-    useGetPlanetsQuery: jest.fn(),
-  },
-}));
-
 describe('App Component', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   const renderComponent = () => {
     render(
       <Provider store={store}>

@@ -34,6 +34,10 @@
   background-color: #f0e68c;
 }
 
+.search-inner__button-error__dark {
+  background-color: #948f62;
+}
+
 .search-inner__button:hover {
   background: rgb(241, 194, 66);
   background: radial-gradient(

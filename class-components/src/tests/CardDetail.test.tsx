@@ -6,6 +6,7 @@ import { ThemeContext } from '../contexts/theme';
 import { planetsApi } from '../store/planetsApi';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import cardsReducer from '../store/cardsSlice';
 
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = (await importOriginal()) as {
@@ -25,6 +26,16 @@ vi.mock('../store/planetsApi', () => ({
   },
 }));
 
+const setUpStore = () => {
+  return configureStore({
+    reducer: {
+      cards: cardsReducer,
+      [planetsApi.reducerPath]: planetsApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({}),
+  });
+};
+
 describe('CardDetails Component', () => {
   const mockThemeContext = {
     theme: 'light',
@@ -42,9 +53,7 @@ describe('CardDetails Component', () => {
       error: null,
     });
 
-    const store = configureStore({
-      reducer: { planetsApi: planetsApi.reducer },
-    });
+    const store = setUpStore();
 
     render(
       <Provider store={store}>
@@ -64,9 +73,7 @@ describe('CardDetails Component', () => {
       error: new Error('Something went wrong'),
     });
 
-    const store = configureStore({
-      reducer: { planetsApi: planetsApi.reducer },
-    });
+    const store = setUpStore();
 
     render(
       <Provider store={store}>
@@ -102,9 +109,7 @@ describe('CardDetails Component', () => {
       isLoading: false,
       error: null,
     });
-    const store = configureStore({
-      reducer: { planetsApi: planetsApi.reducer },
-    });
+    const store = setUpStore();
 
     render(
       <Provider store={store}>

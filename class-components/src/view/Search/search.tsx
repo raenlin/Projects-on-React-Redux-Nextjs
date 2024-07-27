@@ -58,7 +58,10 @@ function Search({ onSearch, setquery }: SearchProp) {
             onClick={handleClick}
             name="Search"
           />
-          <button className="search-inner__button-error" onClick={handleError}>
+          <button
+            className={`${theme === 'light' ? 'search-inner__button-error search-inner__button-error__dark' : 'search-inner__button-error'}`}
+            onClick={handleError}
+          >
             Error!
           </button>
         </div>

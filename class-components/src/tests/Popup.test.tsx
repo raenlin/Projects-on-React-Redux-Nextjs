@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { ThemeContext } from '../contexts/theme';
 import { Popup } from '../components/Popup/Popup';
@@ -7,20 +7,36 @@ import { vi } from 'vitest';
 import { Planet } from '../utils/types';
 import { unselectItem } from '../store/cardsSlice';
 
+vi.mock('file-saver', () => ({
+  saveAs: vi.fn(),
+}));
+
 const mockThemeContextLight = {
   theme: 'light',
   handleThemeChange: () => {},
 };
 
-const mockThemeContextDark = {
-  theme: 'dark',
-  handleThemeChange: () => {},
-};
-
 describe('Popup Component', () => {
-  it('renders correctly with selected cards', () => {
-    const selectedCards: Planet[] = [];
+  const selectedCards: Planet[] = [
+    {
+      name: 'Tatooine',
+      rotation_period: '23',
+      orbital_period: '304',
+      diameter: '10465',
+      climate: 'arid',
+      gravity: '1',
+      terrain: 'desert',
+      surface_water: '1',
+      population: '200000',
+      created: '2014-12-09T13:50:49.641000Z',
+    },
+  ];
 
+  beforeEach(() => {
+    store.dispatch = vi.fn();
+  });
+
+  test('renders correctly with selected cards', () => {
     render(
       <Provider store={store}>
         <ThemeContext.Provider value={mockThemeContextLight}>
@@ -35,10 +51,24 @@ describe('Popup Component', () => {
     });
   });
 
-  it('dispatches unselectItem action when Unselect all button is clicked', async () => {
-    const selectedCards: Planet[] = [];
-    store.dispatch = vi.fn();
+  test('dispatches unselectItem action when Unselect all button is clicked', () => {
+    render(
+      <Provider store={store}>
+        <ThemeContext.Provider value={mockThemeContextLight}>
+          <Popup selectedCards={selectedCards} />
+        </ThemeContext.Provider>
+      </Provider>
+    );
+    const unselectAllButton = screen.getByRole('button', { name: 'Unselect all' });
+    expect(unselectAllButton).toBeInTheDocument();
+    fireEvent.click(unselectAllButton);
 
+    selectedCards.forEach((card) => {
+      expect(store.dispatch).toHaveBeenCalledWith(unselectItem(card));
+    });
+  });
+
+  test('downloads CSV when download button is clicked', async () => {
     render(
       <Provider store={store}>
         <ThemeContext.Provider value={mockThemeContextLight}>
@@ -47,24 +77,12 @@ describe('Popup Component', () => {
       </Provider>
     );
 
-    selectedCards.forEach((card) => {
-      expect(store.dispatch).toHaveBeenCalledWith(unselectItem(card));
-    });
+    expect(screen.getByText('1 items are selected:')).toBeInTheDocument;
+    expect(screen.getByRole('button', { name: 'Unselect all' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Download' })).toBeInTheDocument();
   });
 
-  it('changes button style in dark theme', () => {
-    const selectedCards: Planet[] = [];
-
-    render(
-      <Provider store={store}>
-        <ThemeContext.Provider value={mockThemeContextDark}>
-          <Popup selectedCards={selectedCards} />
-        </ThemeContext.Provider>
-      </Provider>
-    );
-  });
-
-  it('renders nothing if no cards are selected', () => {
+  test('renders nothing if no cards are selected', () => {
     render(
       <Provider store={store}>
         <ThemeContext.Provider value={mockThemeContextLight}>

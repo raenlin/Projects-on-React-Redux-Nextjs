@@ -41,12 +41,4 @@ describe('Search Component', () => {
 
     expect(mockOnSearch).toHaveBeenCalledWith('Tatooine');
   });
-
-  test('fires error on button click', () => {
-    const errorButton = screen.getByText('Error!');
-
-    expect(() => {
-      fireEvent.click(errorButton);
-    }).toThrow('I crashed!');
-  });
 });

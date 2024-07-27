@@ -5,7 +5,8 @@ import { AppDispatch } from '../../store/store';
 import { unselectItem } from '../../store/cardsSlice';
 import { useContext } from 'react';
 import { ThemeContext } from '../../contexts/theme';
-import { CSVLink } from 'react-csv';
+import Papa from 'papaparse';
+import { saveAs } from 'file-saver';
 
 export function Popup({ selectedCards }: PopupProps) {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,6 +16,14 @@ export function Popup({ selectedCards }: PopupProps) {
       dispatch(unselectItem(card));
     });
   };
+
+  const handleFileLoad = () => {
+    const csv = Papa.unparse(selectedCards);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const fileName = `${selectedCards.length}_planets.csv`;
+    saveAs(blob, fileName);
+  };
+
   if (selectedCards.length) {
     return (
       <div className="popup">
@@ -29,17 +38,13 @@ export function Popup({ selectedCards }: PopupProps) {
           >
             Unselect all
           </button>
-          <CSVLink
-            data={selectedCards}
-            filename={`${selectedCards.length}_planets.csv`}
-            target={'_blank'}
+
+          <button
+            className={`${theme === 'light' ? 'popup-button popup-button__dark' : 'popup-button'}`}
+            onClick={handleFileLoad}
           >
-            <button
-              className={`${theme === 'light' ? 'popup-button popup-button__dark' : 'popup-button'}`}
-            >
-              Download
-            </button>
-          </CSVLink>
+            Download
+          </button>
         </div>
       </div>
     );
