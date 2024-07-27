@@ -1,10 +1,11 @@
-import { useDispatch } from 'react-redux';
 import './Popup.css';
+import { useDispatch } from 'react-redux';
 import { PopupProps } from './Popup.type';
 import { AppDispatch } from '../../store/store';
 import { unselectItem } from '../../store/cardsSlice';
 import { useContext } from 'react';
 import { ThemeContext } from '../../contexts/theme';
+import { CSVLink } from 'react-csv';
 
 export function Popup({ selectedCards }: PopupProps) {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,11 +29,17 @@ export function Popup({ selectedCards }: PopupProps) {
           >
             Unselect all
           </button>
-          <button
-            className={`${theme === 'light' ? 'popup-button popup-button__dark' : 'popup-button'}`}
+          <CSVLink
+            data={selectedCards}
+            filename={`${selectedCards.length}_planets.csv`}
+            target={'_blank'}
           >
-            Download
-          </button>
+            <button
+              className={`${theme === 'light' ? 'popup-button popup-button__dark' : 'popup-button'}`}
+            >
+              Download
+            </button>
+          </CSVLink>
         </div>
       </div>
     );

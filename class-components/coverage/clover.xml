@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1722023418269" clover="3.2.0">
-  <project timestamp="1722023418269" name="All files">
-    <metrics statements="485" coveredstatements="393" conditionals="77" coveredconditionals="58" methods="35" coveredmethods="26" elements="597" coveredelements="477" complexity="0" loc="485" ncloc="485" packages="15" files="20" classes="20"/>
+<coverage generated="1722063632899" clover="3.2.0">
+  <project timestamp="1722063632899" name="All files">
+    <metrics statements="491" coveredstatements="394" conditionals="77" coveredconditionals="58" methods="35" coveredmethods="26" elements="603" coveredelements="478" complexity="0" loc="491" ncloc="491" packages="15" files="20" classes="20"/>
     <package name="src">
       <metrics statements="95" coveredstatements="59" conditionals="16" coveredconditionals="7" methods="4" coveredmethods="1"/>
       <file name="App.tsx" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/App.tsx">
@@ -295,24 +295,24 @@
       </file>
     </package>
     <package name="src.components.Popup">
-      <metrics statements="36" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
+      <metrics statements="42" coveredstatements="15" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
       <file name="Popup.tsx" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/components/Popup/Popup.tsx">
-        <metrics statements="36" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
+        <metrics statements="42" coveredstatements="15" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="10" count="4" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="11" count="4" type="stmt"/>
         <line num="12" count="4" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
-        <line num="17" count="4" type="cond" truecount="0" falsecount="1"/>
-        <line num="18" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="4" type="cond" truecount="0" falsecount="1"/>
         <line num="19" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
@@ -323,17 +323,23 @@
         <line num="26" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
-        <line num="39" count="4" type="stmt"/>
-        <line num="40" count="4" type="stmt"/>
-        <line num="41" count="4" type="stmt"/>
-        <line num="42" count="4" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="46" count="4" type="stmt"/>
+        <line num="47" count="4" type="stmt"/>
+        <line num="48" count="4" type="stmt"/>
+        <line num="49" count="4" type="stmt"/>
       </file>
     </package>
     <package name="src.contexts">
