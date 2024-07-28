@@ -1,9 +1,9 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useQueryParams, StringParam, NumberParam } from 'use-query-params';
 import Header from './view/Header/header';
 import Search from './view/Search/search';
 import Main from './view/Main/main';
-import { fetchData, fetchPages } from './services/api';
 import ErrorBoundary from './components/Errorboundary';
 import Footer from './view/Footer/footer';
 import { Planet } from './utils/types';
@@ -11,81 +11,84 @@ import { pagePlanetsCount } from './utils/constants';
 import { Route, Routes } from 'react-router-dom';
 import { NotFound } from './view/404/404';
 import CardDetails from './components/Card/CardDetail';
+import { planetsApi } from './store/planetsApi';
+import { ThemeContext } from './contexts/theme';
+import { themes } from './contexts/theme';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from './store/store';
+import { addItems } from './store/cardsSlice';
 
 export function App() {
   const [searchInput, setSearchInput] = useState<string>('');
-  const [items, setItems] = useState<Planet[]>([]);
-  const [error, setError] = useState<Error | null>(null);
-  const [fetching, setFetching] = useState(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [planetsCount, setPlanetsCount] = useState<number>(1);
+  const [theme, setTheme] = useState('');
+  const [query, setQuery] = useQueryParams({
+    search: StringParam,
+    page: NumberParam,
+  });
+  const dispatch = useDispatch<AppDispatch>();
+  const savedTheme: string | null = localStorage.getItem('theme');
 
+  const { data, error, isLoading } = planetsApi.useGetPlanetsQuery({
+    search: searchInput ? searchInput : '',
+    page: query.page ? query.page : 1,
+  });
+  const items: Planet[] = data ? data.results : [];
+
+  useEffect(() => {
+    if (items.length > 0) {
+      dispatch(addItems(items));
+    }
+  }, [items]);
+
+  useEffect(() => {
+    setQuery({ search: '', page: 1 });
+  }, []);
+
+  useEffect(() => {
+    savedTheme === 'light' ? setTheme(themes.dark) : setTheme(themes.light);
+  }, [setTheme]);
+
+  const planetsCount: number = data ? data.count : 0;
   const pagesCount = Math.ceil(planetsCount / pagePlanetsCount);
   const pages: number[] = searchInput ? [] : Array.from({ length: pagesCount }, (_, i) => i + 1);
 
-  const handleFetchData = async (searchInput: string) => {
-    try {
-      setFetching(true);
-      const data = await fetchData(searchInput);
-      setSearchInput(searchInput.trim());
-      setItems(data);
-      setError(null);
-    } catch (error) {
-      setItems([]);
-      setError(error as Error);
-    } finally {
-      setFetching(false);
-    }
+  const handleFetchData = (searchInput: string) => {
+    setSearchInput(searchInput.trim());
   };
 
-  const handleFetchPages = async (currentPage: number) => {
-    try {
-      setFetching(true);
-      const data = await fetchPages(currentPage);
-      setItems(data.results);
-      setPlanetsCount(Number(data.count));
-      setError(null);
-    } catch (error) {
-      setItems([]);
-      setError(error as Error);
-    } finally {
-      setFetching(false);
-    }
+  const handleThemeChange = () => {
+    localStorage.setItem('theme', theme);
+    theme === themes.light ? setTheme(themes.dark) : setTheme(themes.light);
   };
-
-  useEffect(() => {
-    handleFetchPages(currentPage);
-  }, [currentPage]);
 
   if (error) {
-    return <p>Error {error.message}</p>;
+    return <p>Error</p>;
   }
 
   return (
     <ErrorBoundary>
-      <Header name="Star Wars Planets" />
-      <Search onSearch={handleFetchData} currentPage={setCurrentPage} />
-      {fetching ? (
-        <div className="loader"></div>
-      ) : (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Main
-                items={items}
-                pages={pages}
-                currentPage={currentPage}
-                handlePageCount={setCurrentPage}
-              />
-            }
-          >
-            <Route path="/planets/:id" element={<CardDetails />}></Route>
-          </Route>
-          <Route path="*" element={<NotFound />}></Route>
-        </Routes>
-      )}
-      <Footer />
+      <ThemeContext.Provider value={{ theme, handleThemeChange }}>
+        <div className={`${theme === 'light' ? 'wrapper wrapper-dark' : 'wrapper'}`}>
+          <Header name="Star Wars Planets" />
+          <Search onSearch={handleFetchData} setquery={setQuery} />
+          {isLoading ? (
+            <div className="loader"></div>
+          ) : (
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Main items={items} pages={pages} setquery={setQuery} query={query.page} />
+                }
+              >
+                <Route path="/planets/:id" element={<CardDetails />}></Route>
+              </Route>
+              <Route path="*" element={<NotFound />}></Route>
+            </Routes>
+          )}
+          <Footer />
+        </div>
+      </ThemeContext.Provider>
     </ErrorBoundary>
   );
 }

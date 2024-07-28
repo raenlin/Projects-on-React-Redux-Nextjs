@@ -2,20 +2,24 @@ body {
   font-family: 'Bona Nova SC', serif;
   font-weight: 400;
   font-style: normal;
-  color: #fff5ee;
-  overflow-x: hidden;
-  background-image: url('../src/assets/purple-universe-wallpaper.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  margin: 0;
 }
 
-h1 {
+.heading {
+  color: #fff5ee;
   text-align: center;
+}
+
+.heading-dark {
+  color: #c5c3de;
 }
 
 h2 {
   margin: 10px 0;
+}
+
+h3 {
+  margin: 5px 0;
 }
 
 header {

@@ -3,6 +3,6 @@ import { Planet } from '../../utils/types';
 export type MainProps = {
   items: Planet[];
   pages: number[];
-  currentPage: number;
-  handlePageCount: (page: number) => void;
+  setquery: (params: { searchInput?: string; page?: number }) => void;
+  query: number | null | undefined;
 };

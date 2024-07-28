@@ -1,16 +1,44 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { CardProp } from './Card.type';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { selectItem, unselectItem } from '../../store/cardsSlice';
+import { AppDispatch, RootState } from '../../store/store';
+import { Planet } from '../../utils/types';
 
-function Card({ innerClassName, className, item }: CardProp) {
+function Card({ innerClassName, className, item, setIsPopupVisible }: CardProp) {
+  const dispatch = useDispatch<AppDispatch>();
+  const selectedCards = useSelector((state: RootState) => state.cards.selectedCards);
   const { name } = item;
+  const location = useLocation();
+  const isSelected = selectedCards.some((selectedCard) => selectedCard.name === item.name);
+
+  const handleCheckboxChange = (item: Planet) => {
+    if (isSelected) {
+      dispatch(unselectItem(item));
+    } else {
+      dispatch(selectItem(item));
+    }
+    setTimeout(() => {
+      setIsPopupVisible(true);
+    }, 500);
+  };
+
   return (
-    <li className={className}>
-      <Link key={item.name} to={`/planets/${item.name}`}>
-        <div className={innerClassName}>
-          <h2>{name}</h2>
-        </div>
-      </Link>
-    </li>
+    <div className="card" key={item.name}>
+      <input
+        className="card-checkbox"
+        type="checkbox"
+        checked={isSelected}
+        onChange={() => handleCheckboxChange(item)}
+      />
+      <li className={className}>
+        <Link key={item.name} to={`/planets/${item.name}/${location.search}`}>
+          <div className={innerClassName}>
+            <h2>{name}</h2>
+          </div>
+        </Link>
+      </li>
+    </div>
   );
 }
 
