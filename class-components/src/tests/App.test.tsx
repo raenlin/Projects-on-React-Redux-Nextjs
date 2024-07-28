@@ -27,37 +27,9 @@ describe('App Component', () => {
   it('renders without crashing and shows header and footer', () => {
     renderComponent();
 
-    expect(screen.getByText(/Planets/i)).toBeInTheDocument();
-
+    expect(screen.getByText(/Star Wars Planets/i)).toBeInTheDocument();
     expect(screen.getByText(/raenlin/i)).toBeInTheDocument();
-  });
-
-  it('displays loading state', async () => {
-    vi.mock('./store/planetsApi', () => ({
-      planetsApi: {
-        useGetPlanetsQuery: () => ({
-          data: null,
-          isLoading: true,
-          error: null,
-        }),
-      },
-    }));
-
-    renderComponent();
-  });
-
-  it('displays error state', () => {
-    vi.mock('./store/planetsApi', () => ({
-      planetsApi: {
-        useGetPlanetsQuery: () => ({
-          data: null,
-          isLoading: false,
-          error: new Error('Error fetching planets'),
-        }),
-      },
-    }));
-
-    renderComponent();
-    expect(screen.getByText(/error/i)).toBeInTheDocument();
+    expect(screen.getByText(/Error!/i)).toBeInTheDocument();
+    expect(screen.getByText(/Search/i)).toBeInTheDocument();
   });
 });

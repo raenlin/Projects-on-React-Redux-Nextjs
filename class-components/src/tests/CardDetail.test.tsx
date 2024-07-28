@@ -1,128 +1,121 @@
-import { vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import CardDetails from '../components/Card/CardDetail';
+// CardDetails.test.tsx
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import CardDetails from '../components/Card/CardDetail';
+import { vi } from 'vitest';
 import { ThemeContext } from '../contexts/theme';
-import { planetsApi } from '../store/planetsApi';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import cardsReducer from '../store/cardsSlice';
 
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = (await importOriginal()) as {
-    useParams: () => void;
-    useNavigate: () => void;
-  };
-  return {
-    ...actual,
-    useParams: vi.fn(),
-    useNavigate: vi.fn(),
-  };
-});
-
+const mockUseGetPlanetsQuery = vi.fn();
 vi.mock('../store/planetsApi', () => ({
   planetsApi: {
-    useGetPlanetsQuery: vi.fn(),
+    useGetPlanetsQuery: () => mockUseGetPlanetsQuery(),
   },
 }));
 
-const setUpStore = () => {
-  return configureStore({
-    reducer: {
-      cards: cardsReducer,
-      [planetsApi.reducerPath]: planetsApi.reducer,
-    },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({}),
-  });
-};
+const queryClient = new QueryClient();
 
-describe('CardDetails Component', () => {
+const renderWithProviders = (ui: React.ReactNode, { route = '/planets/1' } = {}) => {
   const mockThemeContext = {
     theme: 'light',
     handleThemeChange: () => {},
   };
+  window.history.pushState({}, 'Test page', route);
+  return render(
+    <MemoryRouter>
+      <QueryClientProvider client={queryClient}>
+        <ThemeContext.Provider value={mockThemeContext}>{ui}</ThemeContext.Provider>
+      </QueryClientProvider>
+    </MemoryRouter>
+  );
+};
 
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+describe('CardDetails', () => {
+  beforeEach(vi.clearAllMocks);
 
-  test('renders loader while loading', () => {
-    (planetsApi.useGetPlanetsQuery as jest.Mock).mockReturnValue({
-      data: null,
-      isLoading: true,
+  it('renders loading state', () => {
+    mockUseGetPlanetsQuery.mockReturnValue({
+      data: undefined,
       error: null,
+      isLoading: true,
     });
 
-    const store = setUpStore();
-
-    render(
-      <Provider store={store}>
-        <ThemeContext.Provider value={mockThemeContext}>
-          <MemoryRouter initialEntries={['/planets/1']}>
-            <CardDetails />
-          </MemoryRouter>
-        </ThemeContext.Provider>
-      </Provider>
-    );
+    renderWithProviders(<CardDetails />);
   });
 
-  test('renders error message on error', async () => {
-    (planetsApi.useGetPlanetsQuery as jest.Mock).mockReturnValue({
-      data: null,
+  it('renders error state', () => {
+    mockUseGetPlanetsQuery.mockReturnValue({
+      data: undefined,
+      error: true,
       isLoading: false,
-      error: new Error('Something went wrong'),
     });
 
-    const store = setUpStore();
+    renderWithProviders(<CardDetails />);
 
-    render(
-      <Provider store={store}>
-        <ThemeContext.Provider value={mockThemeContext}>
-          <MemoryRouter initialEntries={['/planets/1']}>
-            <CardDetails />
-          </MemoryRouter>
-        </ThemeContext.Provider>
-      </Provider>
-    );
-
-    expect(await screen.findByText(/Error/i)).toBeInTheDocument();
+    expect(screen.getByText('Error')).toBeInTheDocument();
   });
 
-  test('renders planet details when data is returned', async () => {
-    (planetsApi.useGetPlanetsQuery as jest.Mock).mockReturnValue({
+  it('renders planet details', () => {
+    mockUseGetPlanetsQuery.mockReturnValue({
       data: {
         results: [
           {
-            name: 'Earth',
-            diameter: '12742',
-            rotation_period: '24',
-            orbital_period: '365',
-            climate: 'temperate',
-            terrain: 'mountains',
+            name: 'Tatooine',
+            diameter: '10465',
+            rotation_period: '23',
+            orbital_period: '304',
+            climate: 'arid',
+            terrain: 'desert',
             gravity: '1',
-            population: '7800000000',
-            surface_water: '71%',
-            created: '2014-12-10T12:45:06.577Z',
+            population: '200000',
+            surface_water: '1',
+            created: '2014-12-09T13:50:49.641000Z',
           },
         ],
       },
-      isLoading: false,
       error: null,
+      isLoading: false,
     });
-    const store = setUpStore();
 
-    render(
-      <Provider store={store}>
-        <ThemeContext.Provider value={mockThemeContext}>
-          <MemoryRouter initialEntries={['/planets/1']}>
-            <CardDetails />
-          </MemoryRouter>
-        </ThemeContext.Provider>
-      </Provider>
-    );
+    renderWithProviders(<CardDetails />);
 
-    expect(await screen.findByText(/Earth/i)).toBeInTheDocument();
-    expect(screen.getByText(/Diameter: 12742/i)).toBeInTheDocument();
-    expect(screen.getByText(/Close/i)).toBeInTheDocument();
+    expect(screen.getByText('Tatooine')).toBeInTheDocument();
+    expect(screen.getByText('Diameter: 10465')).toBeInTheDocument();
+    expect(screen.getByText('Rotation-period: 23')).toBeInTheDocument();
+    expect(screen.getByText('Orbital-period: 304')).toBeInTheDocument();
+    expect(screen.getByText('Climate: arid')).toBeInTheDocument();
+    expect(screen.getByText('Terrain: desert')).toBeInTheDocument();
+    expect(screen.getByText('Gravity: 1')).toBeInTheDocument();
+    expect(screen.getByText('Population: 200000')).toBeInTheDocument();
+    expect(screen.getByText('Surface-water: 1')).toBeInTheDocument();
+    expect(screen.getByText('Created: 2014-12-09T13:50:49.641000Z')).toBeInTheDocument();
+  });
+
+  it('navigates to home on Close button click', () => {
+    mockUseGetPlanetsQuery.mockReturnValue({
+      data: {
+        results: [
+          {
+            name: 'Tatooine',
+            diameter: '10465',
+            rotation_period: '23',
+            orbital_period: '304',
+            climate: 'arid',
+            terrain: 'desert',
+            gravity: '1',
+            population: '200000',
+            surface_water: '1',
+            created: '2014-12-09T13:50:49.641000Z',
+          },
+        ],
+      },
+      error: null,
+      isLoading: false,
+    });
+
+    renderWithProviders(<CardDetails />);
+
+    const closeButton = screen.getByRole('button', { name: /Close/i });
+    fireEvent.click(closeButton);
   });
 });

@@ -26,7 +26,7 @@ export function Popup({ selectedCards }: PopupProps) {
 
   if (selectedCards.length) {
     return (
-      <div className="popup">
+      <div className="popup" data-testid="popup">
         <h3>{selectedCards.length} items are selected:</h3>
         {selectedCards.map((card) => (
           <li key={card.name}>{card.name}</li>
