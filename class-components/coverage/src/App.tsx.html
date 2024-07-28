@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>57/75</span>
+                <span class='fraction'>60/78</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35.71% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/14</span>
+                <span class='fraction'>8/16</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>57/75</span>
+                <span class='fraction'>60/78</span>
             </div>
         
             
@@ -154,7 +154,12 @@
 <a name='L89'></a><a href='#L89'>89</a>
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -183,20 +188,25 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
@@ -274,13 +284,10 @@ export function App() {
   });
   const dispatch = useDispatch&lt;AppDispatch&gt;();
   const savedTheme: string | null = localStorage.getItem('theme');
-  useEffect(() =&gt; {
-    savedTheme === <span class="branch-0 cbranch-no" title="branch not covered" >'light' ? setTheme(themes.dark) : s</span>etTheme(themes.light);
-  }, [setTheme]);
 &nbsp;
   const { data, error, isLoading } = planetsApi.useGetPlanetsQuery({
     search: <span class="branch-0 cbranch-no" title="branch not covered" >searchInput ? searchInput : '</span>',
-    page: query.<span class="branch-0 cbranch-no" title="branch not covered" >page ? query.page : 1</span>,
+    page: query.page ? query.page : 1,
   });
   const items: Planet[] = <span class="branch-0 cbranch-no" title="branch not covered" >data ? data.results : [</span>];
 &nbsp;
@@ -289,6 +296,14 @@ export function App() {
 <span class="cstat-no" title="statement not covered" >      dispatch(addItems(items));</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
   }, [items]);
+&nbsp;
+  useEffect(() =&gt; {
+    setQuery({ search: '', page: 1 });
+  }, []);
+&nbsp;
+  useEffect(() =&gt; {
+    savedTheme === <span class="branch-0 cbranch-no" title="branch not covered" >'light' ? setTheme(themes.dark) : s</span>etTheme(themes.light);
+  }, [setTheme]);
 &nbsp;
   const planetsCount: number = <span class="branch-0 cbranch-no" title="branch not covered" >data ? data.count : 0</span>;
   const pagesCount = Math.ceil(planetsCount / pagePlanetsCount);
@@ -343,7 +358,7 @@ export default App;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-28T16:40:54.698Z
+                at 2024-07-28T18:51:06.459Z
             </div>
         <script src="../prettify.js"></script>
         <script>

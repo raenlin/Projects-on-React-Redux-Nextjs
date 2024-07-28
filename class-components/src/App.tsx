@@ -27,9 +27,6 @@ export function App() {
   });
   const dispatch = useDispatch<AppDispatch>();
   const savedTheme: string | null = localStorage.getItem('theme');
-  useEffect(() => {
-    savedTheme === 'light' ? setTheme(themes.dark) : setTheme(themes.light);
-  }, [setTheme]);
 
   const { data, error, isLoading } = planetsApi.useGetPlanetsQuery({
     search: searchInput ? searchInput : '',
@@ -42,6 +39,14 @@ export function App() {
       dispatch(addItems(items));
     }
   }, [items]);
+
+  useEffect(() => {
+    setQuery({ search: '', page: 1 });
+  }, []);
+
+  useEffect(() => {
+    savedTheme === 'light' ? setTheme(themes.dark) : setTheme(themes.light);
+  }, [setTheme]);
 
   const planetsCount: number = data ? data.count : 0;
   const pagesCount = Math.ceil(planetsCount / pagePlanetsCount);

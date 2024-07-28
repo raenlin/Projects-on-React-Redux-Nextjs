@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1722184854972" clover="3.2.0">
-  <project timestamp="1722184854972" name="All files">
-    <metrics statements="497" coveredstatements="432" conditionals="86" coveredconditionals="64" methods="36" coveredmethods="29" elements="619" coveredelements="525" complexity="0" loc="497" ncloc="497" packages="15" files="20" classes="20"/>
+<coverage generated="1722192666666" clover="3.2.0">
+  <project timestamp="1722192666668" name="All files">
+    <metrics statements="500" coveredstatements="435" conditionals="88" coveredconditionals="67" methods="36" coveredmethods="29" elements="624" coveredelements="531" complexity="0" loc="500" ncloc="500" packages="15" files="20" classes="20"/>
     <package name="src">
-      <metrics statements="95" coveredstatements="57" conditionals="15" coveredconditionals="5" methods="4" coveredmethods="1"/>
+      <metrics statements="98" coveredstatements="60" conditionals="17" coveredconditionals="8" methods="4" coveredmethods="1"/>
       <file name="App.tsx" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/App.tsx">
-        <metrics statements="75" coveredstatements="57" conditionals="14" coveredconditionals="5" methods="3" coveredmethods="1"/>
+        <metrics statements="78" coveredstatements="60" conditionals="16" coveredconditionals="8" methods="3" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -32,55 +32,58 @@
         <line num="27" count="6" type="stmt"/>
         <line num="28" count="6" type="stmt"/>
         <line num="29" count="6" type="stmt"/>
-        <line num="30" count="6" type="cond" truecount="1" falsecount="0"/>
-        <line num="31" count="2" type="cond" truecount="0" falsecount="1"/>
-        <line num="32" count="6" type="stmt"/>
+        <line num="31" count="6" type="stmt"/>
+        <line num="32" count="6" type="cond" truecount="0" falsecount="1"/>
+        <line num="33" count="6" type="cond" truecount="2" falsecount="0"/>
         <line num="34" count="6" type="stmt"/>
         <line num="35" count="6" type="cond" truecount="0" falsecount="1"/>
-        <line num="36" count="6" type="cond" truecount="0" falsecount="1"/>
-        <line num="37" count="6" type="stmt"/>
+        <line num="37" count="6" type="cond" truecount="1" falsecount="0"/>
         <line num="38" count="6" type="cond" truecount="0" falsecount="1"/>
-        <line num="40" count="6" type="cond" truecount="1" falsecount="0"/>
-        <line num="41" count="6" type="cond" truecount="0" falsecount="1"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="6" type="stmt"/>
-        <line num="46" count="6" type="cond" truecount="0" falsecount="1"/>
-        <line num="47" count="6" type="stmt"/>
-        <line num="48" count="6" type="cond" truecount="0" falsecount="1"/>
-        <line num="50" count="6" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="54" count="6" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="6" type="stmt"/>
+        <line num="43" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="6" type="stmt"/>
+        <line num="47" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="48" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="49" count="6" type="stmt"/>
+        <line num="51" count="6" type="cond" truecount="0" falsecount="1"/>
+        <line num="52" count="6" type="stmt"/>
+        <line num="53" count="6" type="cond" truecount="0" falsecount="1"/>
+        <line num="55" count="6" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
         <line num="57" count="0" type="stmt"/>
-        <line num="59" count="6" type="cond" truecount="0" falsecount="1"/>
+        <line num="59" count="6" type="stmt"/>
         <line num="60" count="0" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
-        <line num="63" count="6" type="stmt"/>
-        <line num="64" count="6" type="stmt"/>
-        <line num="65" count="6" type="stmt"/>
-        <line num="66" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="67" count="6" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="64" count="6" type="cond" truecount="0" falsecount="1"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
         <line num="68" count="6" type="stmt"/>
         <line num="69" count="6" type="stmt"/>
-        <line num="70" count="6" type="cond" truecount="0" falsecount="1"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
+        <line num="70" count="6" type="stmt"/>
+        <line num="71" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="72" count="6" type="stmt"/>
+        <line num="73" count="6" type="stmt"/>
+        <line num="74" count="6" type="stmt"/>
+        <line num="75" count="6" type="cond" truecount="0" falsecount="1"/>
+        <line num="77" count="0" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
         <line num="79" count="0" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="84" count="6" type="stmt"/>
-        <line num="85" count="6" type="stmt"/>
-        <line num="86" count="6" type="stmt"/>
-        <line num="87" count="6" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
         <line num="89" count="6" type="stmt"/>
-        <line num="91" count="1" type="stmt"/>
+        <line num="90" count="6" type="stmt"/>
+        <line num="91" count="6" type="stmt"/>
+        <line num="92" count="6" type="stmt"/>
+        <line num="94" count="6" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
       </file>
       <file name="index.tsx" path="/Users/raenlin/Desktop/React-RSSchool-2024/class-components/src/index.tsx">
         <metrics statements="20" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
