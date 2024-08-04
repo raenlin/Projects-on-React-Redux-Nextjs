@@ -1,9 +1,10 @@
 import styles from './CardDetail.module.css';
-import { useContext } from 'react';
+import { ReactNode, useContext } from 'react';
 import { ThemeContext } from '../../contexts/theme';
 import { Planet } from '../../utils/types';
 import { planetsApi } from '../../store/planetsApi';
 import { useRouter } from 'next/router';
+import Page from '..';
 
 function CardDetails() {
   const router = useRouter();
@@ -16,7 +17,7 @@ function CardDetails() {
   const items: Planet[] = data ? data.results : [];
 
   const handleClick = () => {
-    router.push(`/`);
+    router.push(`/?search=&page=1`);
   };
 
   if (!items) {
@@ -51,7 +52,7 @@ function CardDetails() {
           ))}
           <button
             onClick={handleClick}
-            className={`${theme === 'light' ? 'card-details-close card-details-close__dark' : 'card-details-close'}`}
+            className={`${theme === 'light' ? styles['card-details-close__dark'] : styles['card-details-close']}`}
           >
             Close
           </button>
@@ -61,8 +62,8 @@ function CardDetails() {
   );
 }
 
-// CardDetails.getLayout = function getLayout(CardDetails: ReactNode) {
-//   return <planets>{CardDetails}</planets>;
-// };
+CardDetails.getLayout = function getLayout(CardDetails: ReactNode) {
+  return <Page>{CardDetails}</Page>;
+};
 
 export default CardDetails;

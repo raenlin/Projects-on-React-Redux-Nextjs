@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import Search from '../components/Search/search';
 import Main from '../components/Main/main';
 import { useQueryParams, StringParam, NumberParam } from 'use-query-params';
@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import { addItems } from '../store/cardsSlice';
 
-export default function Page() {
+export default function Page({ children }: { children: ReactNode }) {
   const dispatch = useDispatch<AppDispatch>();
   const [searchInput, setSearchInput] = useState<string>('');
   const [query, setQuery] = useQueryParams({
@@ -51,7 +51,13 @@ export default function Page() {
       {isLoading ? (
         <div className="loader"></div>
       ) : (
-        <Main items={items} pages={pages} setquery={setQuery} query={query.page} />
+        <Main
+          items={items}
+          pages={pages}
+          setquery={setQuery}
+          query={query.page}
+          children={children}
+        />
       )}
     </>
   );

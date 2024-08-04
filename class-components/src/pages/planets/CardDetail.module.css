@@ -2,7 +2,8 @@
   width: 500px;
 }
 
-.card-details-close {
+.card-details-close,
+.card-details-close__dark {
   cursor: pointer;
   height: 30px;
   width: 100px;

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Planet } from '../../utils/types';
 
 export type MainProps = {
@@ -5,4 +6,5 @@ export type MainProps = {
   pages: number[];
   setquery: (params: { searchInput?: string; page?: number }) => void;
   query: number | null | undefined;
+  children: ReactNode;
 };

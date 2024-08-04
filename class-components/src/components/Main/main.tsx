@@ -7,7 +7,7 @@ import { Popup } from '../Popup/Popup';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
-function Main({ items, pages, setquery, query }: MainProps) {
+function Main({ items, pages, setquery, query, children }: MainProps) {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const selectedCards = useSelector((state: RootState) => state.cards.selectedCards);
   return (
@@ -24,6 +24,7 @@ function Main({ items, pages, setquery, query }: MainProps) {
             />
           ))}
         </ul>
+        {children}
       </div>
       {location.pathname === '/' && <Pagination pages={pages} setquery={setquery} query={query} />}
       {isPopupVisible && <Popup selectedCards={selectedCards} />}
