@@ -9,31 +9,24 @@ import { ThemeContext } from '../../contexts/theme';
 function Search({ onSearch, setquery }: SearchProp) {
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useState('');
   const [value, setValue] = useLocalStorage('searchPlanet', '');
 
   const { theme } = useContext(ThemeContext);
-
-  // const navigate = useNavigate();
 
   const handleClick = () => {
     const searchText = input.trim();
     setValue(searchText);
     if (input) {
       onSearch(input.trim());
-      // navigate(`/planets/${searchParams}`);
     } else {
       onSearch('');
       const defaultQuery = { search: '', page: 1 };
       setquery(defaultQuery);
-      // navigate(`/?search=${defaultQuery.search}&page=${defaultQuery.page}`);
     }
     setInput('');
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchParams(event.target.value);
     setInput(event.target.value);
     setValue(event.target.value);
   };

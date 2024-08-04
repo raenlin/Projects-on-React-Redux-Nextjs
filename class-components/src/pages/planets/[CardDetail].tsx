@@ -62,7 +62,7 @@ function CardDetails() {
 }
 
 // CardDetails.getLayout = function getLayout(CardDetails: ReactNode) {
-//   return <Main>{CardDetails}</Main>;
+//   return <planets>{CardDetails}</planets>;
 // };
 
 export default CardDetails;
