@@ -1,13 +1,12 @@
 import './style.css';
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import ErrorBoundary from '../components/Errorboundary';
-import { QueryParamProvider } from 'use-query-params';
-import NextAdapterApp from 'next-query-params/app';
 import { Playfair_Display_SC } from 'next/font/google';
 import Layout from '../components/Layout/layout';
 import { wrapper } from '../store/store';
+import { useRouter } from 'next/router';
 
 const font = Playfair_Display_SC({
   weight: ['400', '700'],
@@ -25,21 +24,45 @@ type AppPropsWithLayout = AppProps & {
 
 export function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: ReactNode) => page);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const start = () => {
+    setIsLoading(true);
+  };
+
+  const end = () => {
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', start);
+    router.events.on('routeChangeComplete', end);
+    router.events.on('routeChangeError', end);
+
+    return () => {
+      router.events.off('routeChangeStart', start);
+      router.events.off('routeChangeComplete', end);
+      router.events.off('routeChangeError', end);
+    };
+  }, [router]);
 
   return (
     <ErrorBoundary>
-      <QueryParamProvider adapter={NextAdapterApp}>
-        <>
-          <style jsx global>{`
-            html,
-            button,
-            input {
-              font-family: ${font.style.fontFamily};
-            }
-          `}</style>
+      <>
+        <style jsx global>{`
+          html,
+          button,
+          input {
+            font-family: ${font.style.fontFamily};
+          }
+        `}</style>
+        {isLoading ? (
+          <div className="loader"></div>
+        ) : (
           <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
-        </>
-      </QueryParamProvider>
+        )}
+      </>
     </ErrorBoundary>
   );
 }

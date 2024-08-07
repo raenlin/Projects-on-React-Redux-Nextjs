@@ -4,11 +4,9 @@ import { ThemeContext } from '../../contexts/theme';
 import { Planet } from '../../utils/types';
 import { useGetPlanetsQuery } from '../../store/planetsApi';
 import { useRouter } from 'next/router';
-import Page from '..';
 
 function CardDetails() {
   const router = useRouter();
-
   const id = router.query.CardDetail as string;
   const { theme } = useContext(ThemeContext);
 
@@ -48,7 +46,7 @@ function CardDetails() {
 }
 
 CardDetails.getLayout = function getLayout(CardDetails: ReactNode) {
-  return <Page>{CardDetails}</Page>;
+  return <div>{CardDetails}</div>;
 };
 
 export default CardDetails;

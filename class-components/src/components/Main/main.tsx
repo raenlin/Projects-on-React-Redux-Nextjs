@@ -7,7 +7,7 @@ import { Popup } from '../Popup/Popup';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
-function Main({ items, pages, children }: MainProps) {
+export default function Main({ items, pages, children }: MainProps) {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const selectedCards = useSelector((state: RootState) => state.cards.selectedCards);
   return (
@@ -31,5 +31,3 @@ function Main({ items, pages, children }: MainProps) {
     </section>
   );
 }
-
-export default Main;
