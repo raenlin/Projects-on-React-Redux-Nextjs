@@ -35,8 +35,8 @@ export default function Page({ children }: { children: ReactNode }) {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-  const search = context.query.search as string;
-  const page = context.query.page ? (context.query.page as string) : null;
+  const search = (context.query.search as string) || '';
+  const page = (context.query.page as string) || '1';
 
   await store.dispatch(planetsApi.endpoints.getPlanets.initiate({ search, page }));
 
