@@ -1,64 +1,48 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import Search from '../components/Search/search';
 import Main from '../components/Main/main';
-import { useQueryParams, StringParam, NumberParam } from 'use-query-params';
-import { planetsApi } from '../store/planetsApi';
+import { getRunningQueriesThunk, planetsApi, useGetPlanetsQuery } from '../store/planetsApi';
 import { Planet } from '../utils/types';
 import { pagePlanetsCount } from '../utils/constants';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store/store';
-import { addItems } from '../store/cardsSlice';
+import { wrapper } from '../store/store';
+import { useRouter } from 'next/router';
 
 export default function Page({ children }: { children: ReactNode }) {
-  const dispatch = useDispatch<AppDispatch>();
-  const [searchInput, setSearchInput] = useState<string>('');
-  const [query, setQuery] = useQueryParams({
-    search: StringParam,
-    page: NumberParam,
-  });
+  const router = useRouter();
 
-  const { data, error, isLoading } = planetsApi.useGetPlanetsQuery({
-    search: searchInput || '',
-    page: query.page || 1,
-  });
+  useEffect(() => {
+    if (!router.query.search && !router.query.page) {
+      router.push('/?search=&page=1');
+    }
+  }, [router]);
+
+  const search = router.query.search as string;
+  const page = router.query.page as string;
+
+  const { data } = useGetPlanetsQuery({ search, page });
 
   const items: Planet[] = data ? data.results : [];
-  const planetsCount: number = data ? data.count : 0;
-  const pagesCount = Math.ceil(planetsCount / pagePlanetsCount);
-  const pages: number[] = searchInput ? [] : Array.from({ length: pagesCount }, (_, i) => i + 1);
-
-  useEffect(() => {
-    if (items.length > 0) {
-      dispatch(addItems(items));
-    }
-  }, [items]);
-
-  useEffect(() => {
-    setQuery({ search: '', page: 1 });
-  }, []);
-
-  const handleFetchData = (searchInput: string) => {
-    setSearchInput(searchInput.trim());
-  };
-
-  if (error) {
-    return <p>Error</p>;
-  }
+  const planetsCount: number | null = data ? data.count : null;
+  const pagesCount: number = planetsCount !== null ? Math.ceil(planetsCount / pagePlanetsCount) : 0;
+  const pages: number[] = pagesCount > 1 ? Array.from({ length: pagesCount }, (_, i) => i + 1) : [];
 
   return (
     <>
-      <Search onSearch={handleFetchData} setquery={setQuery} />
-      {isLoading ? (
-        <div className="loader"></div>
-      ) : (
-        <Main
-          items={items}
-          pages={pages}
-          setquery={setQuery}
-          query={query.page}
-          children={children}
-        />
-      )}
+      <Search />
+      <Main items={items} pages={pages} children={children} />
     </>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+  const search = context.query.search as string;
+  const page = context.query.page ? (context.query.page as string) : null;
+
+  await store.dispatch(planetsApi.endpoints.getPlanets.initiate({ search, page }));
+
+  await Promise.all(store.dispatch(getRunningQueriesThunk()));
+
+  return {
+    props: {},
+  };
+});

@@ -1,1 +1,1 @@
-{"/_app":"pages/_app.js","/_document":"pages/_document.js","/":"pages/index.html","/404":"pages/404.html","/planets/[CardDetail]":"pages/planets/[CardDetail].html","/_error":"pages/_error.js"}
+{"/404":"pages/404.html","/_app":"pages/_app.js","/_document":"pages/_document.js","/planets/[CardDetail]":"pages/planets/[CardDetail].html","/":"pages/index.html","/_error":"pages/_error.js"}

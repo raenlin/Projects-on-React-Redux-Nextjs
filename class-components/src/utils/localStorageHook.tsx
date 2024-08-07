@@ -9,6 +9,9 @@ type UseLocalStorage = [
 const useLocalStorage = (key: string, initialValue: LocalStorageValue): UseLocalStorage => {
   const [state, setState] = useState<LocalStorageValue>(() => {
     try {
+      if (typeof window === 'undefined') {
+        return initialValue;
+      }
       const value = localStorage.getItem(key);
       return value ? JSON.parse(value) : initialValue;
     } catch (error) {

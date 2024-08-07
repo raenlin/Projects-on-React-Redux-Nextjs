@@ -19,9 +19,8 @@ module.exports = {
     '@next/eslint-plugin-next',
   ],
   rules: {
-    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'react-compiler/react-compiler': 'error',
-    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-explicit-any': 0,
     'react-hooks/exhaustive-deps': 0,
   },
 };

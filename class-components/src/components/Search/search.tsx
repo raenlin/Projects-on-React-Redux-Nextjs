@@ -2,11 +2,12 @@ import styles from './Search.module.css';
 import { ChangeEvent, useContext, useState } from 'react';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
-import { SearchProp } from './Search.type';
 import useLocalStorage from '../../utils/localStorageHook';
 import { ThemeContext } from '../../contexts/theme';
+import { useRouter } from 'next/router';
 
-function Search({ onSearch, setquery }: SearchProp) {
+function Search() {
+  const router = useRouter();
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
   const [value, setValue] = useLocalStorage('searchPlanet', '');
@@ -14,15 +15,12 @@ function Search({ onSearch, setquery }: SearchProp) {
   const { theme } = useContext(ThemeContext);
 
   const handleClick = () => {
-    const searchText = input.trim();
-    setValue(searchText);
     if (input) {
-      onSearch(input.trim());
+      router.push(`/?search=${input.trim()}`);
     } else {
-      onSearch('');
-      const defaultQuery = { search: '', page: 1 };
-      setquery(defaultQuery);
+      router.push('/?search=&page=1');
     }
+    setValue('');
     setInput('');
   };
 
