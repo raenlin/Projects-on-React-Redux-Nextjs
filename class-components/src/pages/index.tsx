@@ -1,56 +1,43 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode } from 'react';
 import Search from '../components/Search/search';
 import Main from '../components/Main/main';
-import { getRunningQueriesThunk, planetsApi } from '../store/planetsApi';
+import { useGetPlanetsQuery } from '../store/planetsApi';
 import { Planet } from '../utils/types';
 import { pagePlanetsCount } from '../utils/constants';
-import { wrapper } from '../store/store';
 import { useRouter } from 'next/router';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { fetchData } from '../utils/api';
 
 type PlanetsApiResponse = {
-  data: {
-    count: number;
-    results: Planet[];
-  };
+  count: number;
+  results: Planet[];
 };
 
-type PageProps = {
-  children: ReactNode;
-  data: PlanetsApiResponse;
-};
+export const getServerSideProps = fetchData;
 
-export default function Page({ children, data }: PageProps) {
+export default function Page({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const search = router.query.search || '';
+  const page = router.query.page || '1';
 
-  useEffect(() => {
-    if (!router.query.search && !router.query.page) {
-      router.push('/?search=&page=1');
-    }
-  }, [router]);
+  const planetsData = useGetPlanetsQuery(
+    { search: search as string, page: page as string } ?? skipToken
+  );
 
-  const planetsCount: number | null = data ? data.data.count : null;
-  const pagesCount: number = planetsCount !== null ? Math.ceil(planetsCount / pagePlanetsCount) : 0;
-  const pages: number[] = pagesCount > 1 ? Array.from({ length: pagesCount }, (_, i) => i + 1) : [];
+  if (!planetsData) {
+    return;
+  }
+
+  const { results } = planetsData.data as PlanetsApiResponse;
+
+  const planetsCount = planetsData ? planetsData.data?.count : [];
+  const pagesCount = typeof planetsCount === 'number' ? planetsCount / pagePlanetsCount : 0;
+  const pages = pagesCount > 1 ? Array.from({ length: pagesCount }, (_, i) => i + 1) : [];
 
   return (
     <>
       <Search />
-      <Main items={data.data.results} pages={pages} children={children} />
+      {results && <Main items={results} pages={pages} children={children} />}
     </>
   );
 }
-
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-  const search = context.query.search || '';
-  const page = context.query.page || '1';
-
-  const data = await store.dispatch(
-    planetsApi.endpoints.getPlanets.initiate({ search: search as string, page: page as string })
-  );
-
-  await Promise.all(store.dispatch(getRunningQueriesThunk()));
-
-  return {
-    props: { data },
-  };
-});

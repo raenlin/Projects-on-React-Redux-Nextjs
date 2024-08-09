@@ -3,7 +3,7 @@ import cardsReducer from './cardsSlice';
 import { planetsApi } from './planetsApi';
 import { createWrapper } from 'next-redux-wrapper';
 
-const makeStore = () => {
+export const makeStore = () => {
   return configureStore({
     reducer: {
       cards: cardsReducer,

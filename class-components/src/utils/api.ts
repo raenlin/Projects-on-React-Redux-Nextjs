@@ -1,21 +1,18 @@
-// import { GetServerSideProps } from 'next';
-// import { store } from '../store/store';
-// import { planetsApi } from '../store/planetsApi';
+import { getPlanets, getRunningQueriesThunk } from '../store/planetsApi';
+import { wrapper } from '../store/store';
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const search = context.query.search || '';
-//   const page = context.query.page || 1;
+export const fetchData = wrapper.getServerSideProps((store) => async (context) => {
+  const search = context.query.search || '';
+  const page = context.query.page || '1';
 
-//   store.dispatch(
-//     planetsApi.endpoints.getPlanets.initiate({
-//       search: search as string,
-//       page: page as number,
-//     })
-//   );
+  if (page) {
+    await store.dispatch(getPlanets.initiate({ search: search as string, page: page as string }));
+  } else {
+    await store.dispatch(getPlanets.initiate({ search: search as string }));
+  }
+  await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
-//   await Promise.all(store.dispatch(planetsApi.util.getRunningQueriesThunk()));
-
-//   return {
-//     props: {},
-//   };
-// };
+  return {
+    props: {},
+  };
+});
