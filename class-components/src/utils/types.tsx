@@ -10,3 +10,10 @@ export type Planet = {
   population: string;
   created: string;
 };
+
+export type SearchProps = {
+  searchInput: string;
+  items: Planet[];
+  error: Error | null;
+  fetching: boolean;
+};
