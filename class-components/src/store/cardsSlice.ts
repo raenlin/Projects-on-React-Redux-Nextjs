@@ -21,11 +21,8 @@ const cardsSlice = createSlice({
     unselectItem(state, action: PayloadAction<Planet>) {
       state.selectedCards = state.selectedCards.filter((item) => item.name !== action.payload.name);
     },
-    addItems(state, action: PayloadAction<Planet[]>) {
-      state.page = action.payload;
-    },
   },
 });
 
-export const { selectItem, unselectItem, addItems } = cardsSlice.actions;
+export const { selectItem, unselectItem } = cardsSlice.actions;
 export default cardsSlice.reducer;

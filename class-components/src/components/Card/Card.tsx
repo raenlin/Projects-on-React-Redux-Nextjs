@@ -4,12 +4,8 @@ import { CardProp } from './Card.type';
 import { selectItem, unselectItem } from '../../store/cardsSlice';
 import { AppDispatch, RootState } from '../../store/store';
 import { Planet } from '../../utils/types';
-import { useRouter } from 'next/router';
 
 function Card({ innerClassName, className, item, setIsPopupVisible }: CardProp) {
-  const id = item.name;
-  const router = useRouter();
-  const { asPath } = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const selectedCards = useSelector((state: RootState) => state.cards.selectedCards);
   const { name } = item;
@@ -34,7 +30,7 @@ function Card({ innerClassName, className, item, setIsPopupVisible }: CardProp) 
         checked={isSelected}
         onChange={() => handleCheckboxChange(item)}
       />
-      <li className={className} onClick={() => router.push(`/${id}${asPath}`)}>
+      <li className={className}>
         <div className={innerClassName}>
           <h2>{name}</h2>
         </div>

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ThemeContext } from '../contexts/theme';
 import { vi } from 'vitest';
-import CardDetails from '../pages/[id]';
+import CardDetails from '../archive.pages/[id]';
 import { useGetPlanetsQuery } from '../store/planetsApi';
 import { useRouter } from 'next/router';
 

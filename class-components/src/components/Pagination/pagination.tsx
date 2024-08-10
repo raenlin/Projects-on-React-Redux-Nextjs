@@ -1,11 +1,11 @@
-// import { Link } from 'react-router-dom';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './pagination.module.css';
 import { PaginationProps } from './pagination.type';
 
 export function Pagination({ pages }: PaginationProps) {
   const router = useRouter();
-  const currentPage = Number(router.query.page);
+  const params = useSearchParams();
+  const currentpage = Number(params.get('page'));
   return (
     <div className={styles.pagination}>
       <ul className={styles['pagination-list']}>
@@ -13,13 +13,11 @@ export function Pagination({ pages }: PaginationProps) {
           <li
             key={page}
             className={
-              currentPage === page
+              currentpage === page
                 ? styles['pagination-list__item-active']
                 : styles['pagination-list__item']
             }
-            onClick={() => {
-              router.push(`/?search=&page=${page}`);
-            }}
+            onClick={() => router.push(`?search=&page=${page}`)}
           >
             {page}
           </li>

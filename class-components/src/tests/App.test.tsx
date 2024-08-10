@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { App } from '../pages/_app';
+import { App } from '../archive.pages/_app';
 import { vi } from 'vitest';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';

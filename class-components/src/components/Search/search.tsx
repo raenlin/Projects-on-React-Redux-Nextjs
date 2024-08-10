@@ -1,10 +1,12 @@
+'use client';
+
 import styles from './Search.module.css';
 import { ChangeEvent, useContext, useState } from 'react';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 import useLocalStorage from '../../utils/localStorageHook';
 import { ThemeContext } from '../../contexts/theme';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 function Search() {
   const router = useRouter();
