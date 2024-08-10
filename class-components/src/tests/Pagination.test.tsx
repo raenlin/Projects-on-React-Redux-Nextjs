@@ -1,46 +1,50 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
 import { Pagination } from '../components/Pagination/pagination';
-import { vi } from 'vitest';
-import { BrowserRouter } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
-const mockDispatch = vi.fn();
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
-vi.mock('react-redux', async (importOriginal) => {
-  const actual: Record<string, string> = await importOriginal();
-  return {
-    ...actual,
-    useDispatch: () => mockDispatch,
-  };
-});
-
-describe('Pagination', () => {
-  const pages = [1, 2, 3, 4, 5];
-  const setquery = vi.fn();
-  const query = 1;
+describe('Pagination Component', () => {
+  const mockPush = vi.fn();
 
   beforeEach(() => {
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Pagination pages={pages} setquery={setquery} query={query} />
-        </BrowserRouter>
-      </Provider>
-    );
-  });
-
-  it('renders all pages correctly', () => {
-    pages.forEach((page) => {
-      expect(screen.getByText(page)).toBeInTheDocument();
+    (useRouter as jest.Mock).mockReturnValue({
+      query: { page: '1' },
+      push: mockPush,
     });
   });
 
-  it('calls setquery and dispatch on page click', () => {
-    const pageNumber = pages[0];
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
-    fireEvent.click(screen.getByText(pageNumber));
+  it('renders the correct number of pages', () => {
+    const pages = [1, 2, 3, 4, 5];
 
-    expect(setquery).toHaveBeenCalledWith({ page: pageNumber });
+    render(<Pagination pages={pages} />);
+
+    const pageItems = screen.getAllByRole('listitem');
+    expect(pageItems).toHaveLength(pages.length);
+  });
+
+  it('highlights the current page', () => {
+    const pages = [1, 2, 3];
+
+    render(<Pagination pages={pages} />);
+    const activeItem = screen.getByText('1');
+    expect(activeItem).toHaveClass('_pagination-list__item-active_1875ff');
+  });
+
+  it('calls router.push with the correct page number when a page is clicked', () => {
+    const pages = [1, 2, 3];
+
+    render(<Pagination pages={pages} />);
+
+    fireEvent.click(screen.getByText('2'));
+
+    expect(mockPush).toHaveBeenCalledWith('/?search=&page=2');
   });
 });

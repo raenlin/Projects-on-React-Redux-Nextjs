@@ -1,24 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import { ThemeContext } from '../contexts/theme';
-import Header from '../view/Header/header';
+import Header from '../components/Header/header';
 
 describe('Header Component', () => {
   const mockHandleThemeChange = vi.fn();
 
-  const renderHeader = (theme = 'light', name = 'Test Header') => {
+  const renderHeader = (theme = 'light') => {
     render(
       <ThemeContext.Provider value={{ theme, handleThemeChange: mockHandleThemeChange }}>
-        <Header name={name} />
+        <Header />
       </ThemeContext.Provider>
     );
   };
-
-  it('renders the header with the correct name', () => {
-    renderHeader();
-    const headerElement = screen.getByRole('heading', { name: /test header/i });
-    expect(headerElement).toBeInTheDocument();
-  });
 
   it('displays the correct initial theme', () => {
     renderHeader();
@@ -35,12 +29,8 @@ describe('Header Component', () => {
 
   it('renders with dark theme styles', () => {
     renderHeader('dark');
-    const headerElement = screen.getByRole('heading', { name: /test header/i });
     const buttonElement = screen.getByRole('button', { name: /dark/i });
-
-    expect(headerElement).toHaveClass('heading');
-    expect(headerElement).not.toHaveClass('heading-dark');
-    expect(buttonElement).toHaveClass('theme-button');
+    expect(buttonElement).toHaveClass('_theme-button_d33141');
     expect(buttonElement).not.toHaveClass('theme-button__dark');
   });
 });

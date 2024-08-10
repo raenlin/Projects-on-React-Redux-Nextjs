@@ -2,10 +2,12 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { ThemeContext } from '../contexts/theme';
 import { Popup } from '../components/Popup/Popup';
-import { store } from '../store/store';
 import { vi } from 'vitest';
 import { Planet } from '../utils/types';
 import { unselectItem } from '../store/cardsSlice';
+import { makeStore } from '../store/store';
+
+const store = makeStore();
 
 vi.mock('file-saver', () => ({
   saveAs: vi.fn(),

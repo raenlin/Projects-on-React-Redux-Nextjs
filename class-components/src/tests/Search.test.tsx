@@ -1,44 +1,89 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { expect, test, vi } from 'vitest';
-import Search from '../view/Search/search';
+import { MemoryRouter } from 'react-router-dom'; // если используете react-router
+import Search from '../components/Search/search';
+import { ThemeContext } from '../contexts/theme';
+import useLocalStorage from '../utils/localStorageHook';
 
-vi.mock('../../utils/localStorageHook', () => ({
-  useSearchQuery: vi.fn().mockReturnValue(['', vi.fn(), vi.fn()]),
+vi.mock('../utils/localStorageHook');
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
 }));
+const handleThemeChange = vi.fn();
 
 describe('Search Component', () => {
-  const mockOnSearch = vi.fn();
-  const mockSetQuery = vi.fn();
+  const mockSetValue = vi.fn();
+  const mockValue = '';
 
   beforeEach(() => {
-    render(
-      <MemoryRouter>
-        <Search onSearch={mockOnSearch} setquery={mockSetQuery} />
-      </MemoryRouter>
-    );
+    (useLocalStorage as jest.Mock).mockImplementation(() => [mockValue, mockSetValue]);
   });
 
-  test('renders Search component', () => {
-    expect(screen.getByPlaceholderText('Type planet to search...')).toBeInTheDocument();
+  beforeAll(() => {
+    vi.mock('next/router', () => ({
+      useRouter: () => ({
+        push: vi.fn(),
+      }),
+    }));
+  });
+
+  it('renders without crashing', () => {
+    render(
+      <ThemeContext.Provider value={{ theme: 'light', handleThemeChange }}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </ThemeContext.Provider>
+    );
+
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(screen.getByText('Search')).toBeInTheDocument();
   });
 
-  test('updates input value on change', () => {
-    const input = screen.getByPlaceholderText<HTMLInputElement>('Type planet to search...');
+  it('updates input value correctly', () => {
+    render(
+      <ThemeContext.Provider value={{ theme: 'light', handleThemeChange }}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </ThemeContext.Provider>
+    );
 
-    fireEvent.change(input, { target: { value: 'Tatooine' } });
+    const input = screen.getByRole('textbox');
+    fireEvent.change(input, { target: { value: 'Mars' } });
 
-    expect(input.value).toBe('Tatooine');
+    expect(mockSetValue).toHaveBeenCalledWith('Mars');
   });
 
-  test('calls onSearch and navigates on button click', () => {
-    const input = screen.getByPlaceholderText('Type planet to search...');
-    fireEvent.change(input, { target: { value: 'Tatooine' } });
+  it('handles button click with valid input', () => {
+    render(
+      <ThemeContext.Provider value={{ theme: 'light', handleThemeChange }}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </ThemeContext.Provider>
+    );
 
-    const searchButton = screen.getByText('Search');
-    fireEvent.click(searchButton);
+    const input = screen.getByRole('textbox');
+    fireEvent.change(input, { target: { value: 'Mars' } });
 
-    expect(mockOnSearch).toHaveBeenCalledWith('Tatooine');
+    const button = screen.getByText('Search');
+    fireEvent.click(button);
+
+    expect(mockSetValue).toHaveBeenCalledWith('');
+  });
+
+  it('handles button click with empty input', () => {
+    render(
+      <ThemeContext.Provider value={{ theme: 'light', handleThemeChange }}>
+        <MemoryRouter>
+          <Search />
+        </MemoryRouter>
+      </ThemeContext.Provider>
+    );
+
+    const button = screen.getByText('Search');
+    fireEvent.click(button);
+
+    expect(mockSetValue).toHaveBeenCalledWith('');
   });
 });

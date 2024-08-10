@@ -1,63 +1,24 @@
-// CardDetails.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import CardDetails from '../components/Card/CardDetail';
-import { vi } from 'vitest';
 import { ThemeContext } from '../contexts/theme';
+import { vi } from 'vitest';
+import CardDetails from '../pages/[id]';
+import { useGetPlanetsQuery } from '../store/planetsApi';
+import { useRouter } from 'next/router';
 
-const mockUseGetPlanetsQuery = vi.fn();
-vi.mock('../store/planetsApi', () => ({
-  planetsApi: {
-    useGetPlanetsQuery: () => mockUseGetPlanetsQuery(),
-  },
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
 }));
 
-const queryClient = new QueryClient();
+vi.mock('../store/planetsApi', () => ({
+  useGetPlanetsQuery: vi.fn(),
+}));
 
-const renderWithProviders = (ui: React.ReactNode, { route = '/planets/1' } = {}) => {
-  const mockThemeContext = {
-    theme: 'light',
-    handleThemeChange: () => {},
-  };
-  window.history.pushState({}, 'Test page', route);
-  return render(
-    <MemoryRouter>
-      <QueryClientProvider client={queryClient}>
-        <ThemeContext.Provider value={mockThemeContext}>{ui}</ThemeContext.Provider>
-      </QueryClientProvider>
-    </MemoryRouter>
-  );
-};
+const handleThemeChange = vi.fn();
 
-describe('CardDetails', () => {
-  beforeEach(vi.clearAllMocks);
-
-  it('renders loading state', () => {
-    mockUseGetPlanetsQuery.mockReturnValue({
-      data: undefined,
-      error: null,
-      isLoading: true,
-    });
-
-    renderWithProviders(<CardDetails />);
-  });
-
-  it('renders error state', () => {
-    mockUseGetPlanetsQuery.mockReturnValue({
-      data: undefined,
-      error: true,
-      isLoading: false,
-    });
-
-    renderWithProviders(<CardDetails />);
-
-    expect(screen.getByText('Error')).toBeInTheDocument();
-  });
-
-  it('renders planet details', () => {
-    mockUseGetPlanetsQuery.mockReturnValue({
-      data: {
+describe('CardDetails component', () => {
+  beforeEach(() => {
+    (useGetPlanetsQuery as jest.Mock).mockImplementation(() => ({
+      currentData: {
         results: [
           {
             name: 'Tatooine',
@@ -69,53 +30,51 @@ describe('CardDetails', () => {
             gravity: '1',
             population: '200000',
             surface_water: '1',
-            created: '2014-12-09T13:50:49.641000Z',
+            created: '2014-12-09T13:50:49.641Z',
           },
         ],
       },
-      error: null,
-      isLoading: false,
+    }));
+    (useRouter as jest.Mock).mockReturnValue({
+      query: { search: '', page: '', id: '1' },
+      push: vi.fn(),
     });
-
-    renderWithProviders(<CardDetails />);
-
-    expect(screen.getByText('Tatooine')).toBeInTheDocument();
-    expect(screen.getByText('Diameter: 10465')).toBeInTheDocument();
-    expect(screen.getByText('Rotation-period: 23')).toBeInTheDocument();
-    expect(screen.getByText('Orbital-period: 304')).toBeInTheDocument();
-    expect(screen.getByText('Climate: arid')).toBeInTheDocument();
-    expect(screen.getByText('Terrain: desert')).toBeInTheDocument();
-    expect(screen.getByText('Gravity: 1')).toBeInTheDocument();
-    expect(screen.getByText('Population: 200000')).toBeInTheDocument();
-    expect(screen.getByText('Surface-water: 1')).toBeInTheDocument();
-    expect(screen.getByText('Created: 2014-12-09T13:50:49.641000Z')).toBeInTheDocument();
   });
 
-  it('navigates to home on Close button click', () => {
-    mockUseGetPlanetsQuery.mockReturnValue({
-      data: {
-        results: [
-          {
-            name: 'Tatooine',
-            diameter: '10465',
-            rotation_period: '23',
-            orbital_period: '304',
-            climate: 'arid',
-            terrain: 'desert',
-            gravity: '1',
-            population: '200000',
-            surface_water: '1',
-            created: '2014-12-09T13:50:49.641000Z',
-          },
-        ],
-      },
-      error: null,
-      isLoading: false,
+  test('renders planet data correctly', () => {
+    render(
+      <ThemeContext.Provider value={{ theme: 'light', handleThemeChange }}>
+        <CardDetails />
+      </ThemeContext.Provider>
+    );
+
+    expect(screen.getByText(/Tatooine/i)).toBeInTheDocument();
+    expect(screen.getByText(/Diameter: 10465/i)).toBeInTheDocument();
+    expect(screen.getByText(/Rotation-period: 23/i)).toBeInTheDocument();
+    expect(screen.getByText(/Orbital-period: 304/i)).toBeInTheDocument();
+    expect(screen.getByText(/Climate: arid/i)).toBeInTheDocument();
+    expect(screen.getByText(/Terrain: desert/i)).toBeInTheDocument();
+    expect(screen.getByText(/Gravity: 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/Population: 200000/i)).toBeInTheDocument();
+    expect(screen.getByText(/Surface-water: 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/Created: 2014-12-09T13:50:49.641Z/i)).toBeInTheDocument();
+  });
+
+  test('button click navigates back to search page', () => {
+    const mockPush = vi.fn();
+    (useRouter as jest.Mock).mockReturnValueOnce({
+      query: { search: '', page: '', id: '1' },
+      push: mockPush,
     });
+    render(
+      <ThemeContext.Provider value={{ theme: 'light', handleThemeChange }}>
+        <CardDetails />
+      </ThemeContext.Provider>
+    );
 
-    renderWithProviders(<CardDetails />);
+    const button = screen.getByRole('button', { name: /Close/i });
+    fireEvent.click(button);
 
-    const closeButton = screen.getByRole('button', { name: /Close/i });
-    fireEvent.click(closeButton);
+    expect(mockPush).toHaveBeenCalledWith('/?search=&page=');
   });
 });

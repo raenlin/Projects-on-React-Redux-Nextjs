@@ -1,83 +1,79 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import cardsReducer from '../store/cardsSlice';
-import Card from '../components/Card/Card';
-import { Planet } from '../utils/types';
-import { BrowserRouter } from 'react-router-dom';
-import { planetsApi } from '../store/planetsApi';
-import { vi } from 'vitest';
+import { makeStore } from '../store/store'; // Импортируйте ваш Redux store
+import Card from '../components/Card/Card'; // Импортируйте ваш компонент Card
+import { Planet } from '../utils/types'; // Импортируйте типы, которые вы используете
+import { useRouter } from 'next/router';
+import { act } from 'react';
 
-const setUpStore = () => {
-  return configureStore({
-    reducer: {
-      cards: cardsReducer,
-      [planetsApi.reducerPath]: planetsApi.reducer,
-    },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(planetsApi.middleware),
-  });
+const store = makeStore();
+
+const mockPlanet: Planet = {
+  name: 'Tatooine',
+  diameter: '10465',
+  rotation_period: '23',
+  orbital_period: '304',
+  climate: 'arid',
+  terrain: 'desert',
+  gravity: '1',
+  population: '200000',
+  surface_water: '1',
+  created: '2014-12-09T13:50:49.641000Z',
 };
 
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
+
 describe('Card Component', () => {
-  const item: Planet = {
-    name: 'Tatooine',
-    rotation_period: '23',
-    orbital_period: '304',
-    diameter: '10465',
-    climate: 'arid',
-    gravity: '1',
-    terrain: 'desert',
-    surface_water: '1',
-    population: '200000',
-    created: '2014-12-09T13:50:49.641000Z',
-  };
+  const setIsPopupVisibleMock = vi.fn();
 
-  const innerClassName = 'inner';
-  const className = 'card-class';
-  const setIsPopupVisible = vi.fn();
-
-  test('renders Card component', () => {
-    const store = setUpStore();
-
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Card
-            setIsPopupVisible={setIsPopupVisible}
-            innerClassName={innerClassName}
-            className={className}
-            item={item}
-          />
-        </BrowserRouter>
-      </Provider>
-    );
-
-    expect(screen.getByText(/Tatooine/i)).toBeInTheDocument();
-    const checkbox = screen.getByRole('checkbox');
-    expect(checkbox).not.toBeChecked();
+  beforeEach(() => {
+    vi.clearAllMocks();
+    (useRouter as jest.Mock).mockReturnValue({
+      asPath: '/mock-path',
+    });
   });
 
-  test('selects the card when checkbox is checked', () => {
-    const store = setUpStore();
-
+  it('renders correctly', () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <Card
-            setIsPopupVisible={setIsPopupVisible}
-            innerClassName={innerClassName}
-            className={className}
-            item={item}
-          />
-        </BrowserRouter>
+        <Card
+          innerClassName="inner-class"
+          className="card-class"
+          item={mockPlanet}
+          setIsPopupVisible={setIsPopupVisibleMock}
+        />
+      </Provider>
+    );
+
+    expect(screen.getByText('Tatooine')).toBeInTheDocument();
+  });
+
+  it('checkbox state changes on click', async () => {
+    render(
+      <Provider store={store}>
+        <Card
+          innerClassName="inner-class"
+          className="card-class"
+          item={mockPlanet}
+          setIsPopupVisible={setIsPopupVisibleMock}
+        />
       </Provider>
     );
 
     const checkbox = screen.getByRole('checkbox');
-    fireEvent.click(checkbox);
 
-    expect(checkbox).toBeChecked();
-    expect(store.getState().cards.selectedCards).toHaveLength(1);
-    expect(store.getState().cards.selectedCards[0]).toEqual(item);
+    expect(checkbox).not.toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(checkbox);
+    });
+
+    await act(async () => {
+      return new Promise((resolve) => setTimeout(resolve, 600));
+    });
+
+    expect(setIsPopupVisibleMock).toHaveBeenCalledWith(true);
   });
 });

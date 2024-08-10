@@ -1,35 +1,68 @@
-import { vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import App from '../App';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-import { QueryParamProvider } from 'use-query-params';
-import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
-import { store } from '../store/store';
+import { App } from '../pages/_app';
+import { vi } from 'vitest';
+import { useRouter } from 'next/router';
+import { ReactNode } from 'react';
+
+vi.mock('../components/Layout/layout', () => ({
+  default: ({ children }: { children: ReactNode }) => (
+    <div data-testid="mocked-layout">{children}</div>
+  ),
+}));
+
+vi.mock('../components/Errorboundary', () => ({
+  default: ({ children }: { children: ReactNode }) => (
+    <div data-testid="mocked-error-boundary">{children}</div>
+  ),
+}));
+
+vi.mock('next/font/google', () => ({
+  Playfair_Display_SC: () => ({
+    style: {
+      fontFamily: 'mocked',
+    },
+  }),
+}));
+
+const mockRouteChangeStart = vi.fn();
+const mockRouteChangeComplete = vi.fn();
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    events: {
+      on: vi.fn((event, callback) => {
+        if (event === 'routeChangeStart') {
+          mockRouteChangeStart();
+          callback();
+        }
+        if (event === 'routeChangeComplete') {
+          mockRouteChangeComplete();
+          callback();
+        }
+      }),
+      off: vi.fn(),
+    },
+  }),
+}));
+
+const TestComponent = () => <div>Test Component</div>;
 
 describe('App Component', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
+  it('renders correctly and shows loader on route change', () => {
+    render(<App Component={TestComponent} pageProps={{}} />);
+
+    expect(screen.getByText('Test Component')).toBeInTheDocument();
+
+    const { events } = useRouter();
+    events.on('routeChangeStart', () => {});
+
+    events.on('routeChangeComplete', () => <div>Test Component</div>);
+    expect(screen.getByText('Test Component')).toBeInTheDocument();
   });
 
-  const renderComponent = () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <QueryParamProvider adapter={ReactRouter6Adapter}>
-            <App />
-          </QueryParamProvider>
-        </MemoryRouter>
-      </Provider>
-    );
-  };
+  it('renders layout correctly', () => {
+    render(<App Component={TestComponent} pageProps={{}} />);
 
-  it('renders without crashing and shows header and footer', () => {
-    renderComponent();
-
-    expect(screen.getByText(/Star Wars Planets/i)).toBeInTheDocument();
-    expect(screen.getByText(/raenlin/i)).toBeInTheDocument();
-    expect(screen.getByText(/Error!/i)).toBeInTheDocument();
-    expect(screen.getByText(/Search/i)).toBeInTheDocument();
+    expect(screen.getByTestId('mocked-layout')).toBeInTheDocument();
+    expect(screen.getByTestId('mocked-error-boundary')).toBeInTheDocument();
   });
 });
