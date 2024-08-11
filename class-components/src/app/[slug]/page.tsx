@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Home from '../page';
 
-export async function CardDetails({
+async function CardDetails({
   params,
   searchParams,
 }: {
