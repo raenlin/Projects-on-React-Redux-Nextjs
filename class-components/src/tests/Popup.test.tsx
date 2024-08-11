@@ -5,9 +5,7 @@ import { Popup } from '../components/Popup/Popup';
 import { vi } from 'vitest';
 import { Planet } from '../utils/types';
 import { unselectItem } from '../store/cardsSlice';
-import { makeStore } from '../store/store';
-
-const store = makeStore();
+import { store } from '../store/store';
 
 vi.mock('file-saver', () => ({
   saveAs: vi.fn(),

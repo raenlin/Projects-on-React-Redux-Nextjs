@@ -1,12 +1,10 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { makeStore } from '../store/store'; // Импортируйте ваш Redux store
+import { store } from '../store/store';
 import Card from '../components/Card/Card'; // Импортируйте ваш компонент Card
 import { Planet } from '../utils/types'; // Импортируйте типы, которые вы используете
 import { useRouter } from 'next/router';
 import { act } from 'react';
-
-const store = makeStore();
 
 const mockPlanet: Planet = {
   name: 'Tatooine',
@@ -23,6 +21,21 @@ const mockPlanet: Planet = {
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
+}));
+
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({
+    get: (key: string) => {
+      switch (key) {
+        case 'search':
+          return 'Mars';
+        case 'page':
+          return '1';
+        default:
+          return null;
+      }
+    },
+  }),
 }));
 
 describe('Card Component', () => {

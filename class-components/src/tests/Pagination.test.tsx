@@ -1,50 +1,60 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Pagination } from '../components/Pagination/pagination';
-import { useRouter } from 'next/router';
+import { vi } from 'vitest';
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
+  useSearchParams: vi.fn(),
 }));
 
 describe('Pagination Component', () => {
   const mockPush = vi.fn();
 
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue({
-      query: { page: '1' },
+    useRouter.mockReturnValue({
       push: mockPush,
+    });
+    useSearchParams.mockReturnValue({
+      get: vi.fn(),
     });
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    mockPush.mockClear();
   });
 
-  it('renders the correct number of pages', () => {
-    const pages = [1, 2, 3, 4, 5];
-
-    render(<Pagination pages={pages} />);
-
-    const pageItems = screen.getAllByRole('listitem');
-    expect(pageItems).toHaveLength(pages.length);
-  });
-
-  it('highlights the current page', () => {
+  test('renders pagination with correct pages', () => {
+    useSearchParams().get.mockReturnValue('1');
     const pages = [1, 2, 3];
 
     render(<Pagination pages={pages} />);
-    const activeItem = screen.getByText('1');
-    expect(activeItem).toHaveClass('_pagination-list__item-active_1875ff');
+
+    pages.forEach((page) => {
+      expect(screen.getByText(page)).toBeInTheDocument();
+    });
+    expect(screen.getByText('1')).toHaveClass('_pagination-list__item-active_1875ff');
   });
 
-  it('calls router.push with the correct page number when a page is clicked', () => {
+  test('clicking on a page navigates to the correct route', () => {
+    useSearchParams().get.mockReturnValue('1');
     const pages = [1, 2, 3];
 
     render(<Pagination pages={pages} />);
 
     fireEvent.click(screen.getByText('2'));
 
-    expect(mockPush).toHaveBeenCalledWith('/?search=&page=2');
+    expect(mockPush).toHaveBeenCalledWith('?search=&page=2');
+  });
+
+  test('correctly applies the active class for the current page', () => {
+    useSearchParams().get.mockReturnValue('3');
+    const pages = [1, 2, 3];
+
+    render(<Pagination pages={pages} />);
+
+    expect(screen.getByText('3')).toHaveClass('_pagination-list__item-active_1875ff');
+    expect(screen.getByText('1')).toHaveClass(' _pagination-list__item_1875ff');
+    expect(screen.getByText('2')).toHaveClass('_pagination-list__item_1875ff');
   });
 });

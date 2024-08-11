@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import NotFound from '../archive.pages/404';
+import NotFound from '../app/not-found';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('NotFound component', () => {
@@ -14,7 +14,7 @@ describe('NotFound component', () => {
 
     expect(screen.getByText(/Sorry, an unexpected error has occurred./i)).toBeInTheDocument();
 
-    const linkElement = screen.getByRole('link', { name: /Main/i });
+    const linkElement = screen.getByRole('link', { name: /Home/i });
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', '/?search=&page=1');
   });

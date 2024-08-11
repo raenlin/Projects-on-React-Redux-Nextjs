@@ -1,69 +1,47 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import Layout from '../components/Layout/layout';
-import { themes } from '../contexts/theme';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import RootLayout from '../app/layout';
+import Loading from '../app/loading';
+import { ReactNode, Suspense } from 'react';
 
-vi.mock('../Header/header', () => () => <div>Header</div>);
-vi.mock('../Footer/footer', () => () => <div>Footer</div>);
+vi.mock('../components/ProviderWrapper/providerWrapper', () => ({
+  default: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+}));
 
-const setItemMock = vi.fn();
-const getItemMock = vi.fn();
+vi.mock('../components/Header/header', () => ({
+  default: () => <header>Header</header>,
+}));
 
-Object.defineProperty(window, 'localStorage', {
-  value: {
-    setItem: setItemMock,
-    getItem: getItemMock,
-  },
-  writable: true,
-});
+vi.mock('../components/Footer/footer', () => ({
+  default: () => <footer>Footer</footer>,
+}));
 
-describe('Layout Component', () => {
-  beforeEach(() => {
-    setItemMock.mockClear();
-    getItemMock.mockClear();
-  });
+vi.mock('./loading', () => ({
+  default: () => <div>Loading...</div>,
+}));
 
-  it('renders with default theme', () => {
-    getItemMock.mockReturnValue(null);
-
+describe('RootLayout Component', () => {
+  it('renders Header, Footer and children', () => {
     render(
-      <Layout>
-        <div>Content</div>
-      </Layout>
+      <RootLayout>
+        <div>Test Children</div>
+      </RootLayout>
     );
 
-    expect(screen.getByRole('banner')).toBeInTheDocument();
-    expect(screen.getByRole('contentinfo')).toBeInTheDocument();
+    expect(screen.getByText(/Header/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test Children/i)).toBeInTheDocument();
+    expect(screen.getByText(/Footer/i)).toBeInTheDocument();
   });
 
-  it('renders with light theme from localStorage', () => {
-    getItemMock.mockReturnValue('light');
-
+  it('displays loading fallback when children are not ready', () => {
     render(
-      <Layout>
-        <div>Content</div>
-      </Layout>
+      <RootLayout>
+        <Suspense fallback={<Loading />}>
+          <Loading />
+        </Suspense>
+      </RootLayout>
     );
 
-    expect(screen.getByRole('banner')).toBeInTheDocument();
-    expect(screen.getByRole('contentinfo')).toBeInTheDocument();
-  });
-
-  it('changes theme on handleThemeChange', () => {
-    getItemMock.mockReturnValue('dark');
-
-    render(
-      <Layout>
-        <div>Content</div>
-      </Layout>
-    );
-
-    expect(screen.getByRole('banner')).toBeInTheDocument();
-
-    const themeButton = screen.getByText(/light/i);
-    fireEvent.click(themeButton);
-
-    expect(setItemMock).toHaveBeenCalledWith('theme', themes.light);
-    expect(window.localStorage.setItem).toHaveBeenCalled();
+    expect(screen.getByText(/Footer/i)).toBeInTheDocument();
   });
 });
