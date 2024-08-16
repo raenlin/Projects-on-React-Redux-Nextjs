@@ -1,0 +1,14 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  display: flex;
+  justify-content: space-between;
+}
+
+input {
+  margin-left: 10px;
+}

@@ -1,0 +1,9 @@
+.form_link {
+  padding: 5px 10px;
+  border: 2px solid #f2faf6;
+  border-radius: 5px;
+}
+
+.form_link:first-child {
+  margin-right: 20px;
+}
