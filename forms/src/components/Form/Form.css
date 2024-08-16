@@ -1,3 +1,9 @@
+.form_wrapper {
+  padding: 10px;
+  background-color: #1e4d478d;
+  border-radius: 10px;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -11,4 +17,14 @@ label {
 
 input {
   margin-left: 10px;
+}
+
+.form_wrapper button {
+  cursor: pointer;
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.8em;
+  background-color: #1e4d478d;
+  border: 1px solid #f2faf6;
+  border-radius: 5px;
 }
