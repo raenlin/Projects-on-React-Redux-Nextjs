@@ -18,14 +18,16 @@ export default function Uncontrolled() {
   } = useForm<MyForm>({ mode: 'onSubmit', resolver: yupResolver(formSchema) });
 
   const submit: SubmitHandler<MyForm> = async (data) => {
-    const file = data.image[0];
+    const file = data.image?.[0];
     const reader = new FileReader();
     reader.onloadend = () => {
       const base64String = reader.result as string;
       dispatch(setUncontrolledImage(base64String));
     };
 
-    reader.readAsDataURL(file);
+    if (file) {
+      reader.readAsDataURL(file);
+    }
     dispatch(submitUncontrolled(data));
     const isValid = await formSchema.isValid(data);
 

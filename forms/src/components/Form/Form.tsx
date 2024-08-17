@@ -60,6 +60,7 @@ export default function Form({ register, handleSubmit, errors }: FormProps) {
         <input type="file" id="img" accept=".jpg, .jpeg, .png" {...register('image')} />
         <span>Upload</span>
       </label>
+      <p>{errors.image?.message}</p>
       <label htmlFor="accept-terms">
         <input type="checkbox" id="accept-terms" {...register('acceptTermsAndConditions')} />
         accept Terms and Conditions

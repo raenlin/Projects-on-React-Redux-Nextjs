@@ -14,6 +14,6 @@ export type MyForm = {
   confirm_password: string;
   country: string;
   gender: string;
-  image: File[];
+  image: FileList;
   acceptTermsAndConditions: boolean;
 };
