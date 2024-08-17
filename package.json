@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@hookform/resolvers": "^3.9.0",
-    "react-redux": "^9.1.2"
-  }
-}
