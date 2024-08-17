@@ -1,0 +1,24 @@
+import * as yup from 'yup';
+
+export const formSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required('field must not be empty')
+    .matches(/^[A-Z][a-zA-Z]*$/, 'only latin letters, first letter capital'),
+
+  age: yup.number().required('field must not be empty').positive('age must be positive').integer(),
+  email: yup.string().required('field must not be empty').email('email must be valid'),
+  password: yup
+    .string()
+    .required('field must not be empty')
+    .matches(
+      /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]).+$/,
+      'required  1 number, 1 uppercased letter, 1 lowercased letter, 1 special character'
+    ),
+  confirm_password: yup
+    .string()
+    .required('field must not be empty')
+    .oneOf([yup.ref('password')], 'passwords must match'),
+  gender: yup.string().required(),
+  acceptTermsAndConditions: yup.boolean().required().oneOf([true], 'you must accept the terms'),
+});

@@ -1,34 +1,35 @@
-import { Link } from 'react-router-dom';
-import Form from '../../components/Form/Form';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../state/store';
 import { submitUncontrolled } from '../../state/formSlice';
+import { formSchema } from '../../Validations/formValidation';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Form from '../../components/Form/Form';
+import { MyForm } from '../../components/Form/Form.type';
 
 export default function Uncontrolled() {
   const dispatch = useDispatch<AppDispatch>();
-  const [formData, setFormData] = useState({
-    name: '',
-    age: '',
-    email: '',
-    password: '',
-    gender: '',
-  });
+  const navigate = useNavigate();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<MyForm>({ mode: 'onSubmit', resolver: yupResolver(formSchema) });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const submit: SubmitHandler<MyForm> = async (data) => {
+    dispatch(submitUncontrolled(data));
+    const isValid = await formSchema.isValid(data);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    dispatch(submitUncontrolled(formData));
+    if (isValid) {
+      navigate('/');
+    }
   };
 
   return (
     <div className="form_wrapper">
       <h2>Uncontrolled form</h2>
-      <Form handleChange={handleChange} handleSubmit={handleSubmit} />
+      <Form register={register} handleSubmit={handleSubmit(submit)} errors={errors} />
       <div className="button_back">
         <Link to="/ ">Back to main</Link>
       </div>

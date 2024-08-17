@@ -1,3 +1,9 @@
+.form_link__wrapper {
+  padding: 20px;
+  background-color: #1e4d478d;
+  border-radius: 10px;
+}
+
 .form_link {
   padding: 5px 10px;
   border: 2px solid #f2faf6;
@@ -6,4 +12,8 @@
 
 .form_link:first-child {
   margin-right: 20px;
+}
+
+.form_link:hover {
+  background-color: #7ac4ba86;
 }

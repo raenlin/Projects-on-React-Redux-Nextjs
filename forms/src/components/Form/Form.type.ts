@@ -1,4 +1,17 @@
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+
 export type FormProps = {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  register: UseFormRegister<MyForm>;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  errors: FieldErrors<MyForm>;
+};
+
+export type MyForm = {
+  name: string;
+  age: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+  gender: string;
+  acceptTermsAndConditions: boolean;
 };

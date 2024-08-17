@@ -1,5 +1,6 @@
 .form_wrapper {
-  padding: 10px;
+  width: 350px;
+  padding: 10px 20px;
   background-color: #1e4d478d;
   border-radius: 10px;
 }
@@ -27,4 +28,8 @@ input {
   background-color: #1e4d478d;
   border: 1px solid #f2faf6;
   border-radius: 5px;
+}
+
+.form_wrapper button:disabled {
+  background-color: #3b47468d;
 }

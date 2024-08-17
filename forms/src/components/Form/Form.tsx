@@ -1,37 +1,51 @@
 import './Form.css';
 import { FormProps } from './Form.type';
 
-export default function Form({ handleChange, handleSubmit }: FormProps) {
+export default function Form({ register, handleSubmit, errors }: FormProps) {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">
-        Name <input type="text" name="name" id="name" onChange={handleChange} />
+        Name <input type="text" id="name" placeholder="Name..." {...register('name')} />
       </label>
+      <p>{errors.name?.message}</p>
       <label htmlFor="age">
-        Age <input type="text" name="age" onChange={handleChange} />
+        Age <input type="number" id="age" placeholder="18" {...register('age')} />
       </label>
+      <p>{errors.age?.message}</p>
       <label htmlFor="email">
-        Email <input type="email" name="email" id="email" onChange={handleChange} />
+        Email <input type="text" id="email" placeholder="email@gmail.com" {...register('email')} />
       </label>
+      <p>{errors.email?.message}</p>
       <label htmlFor="password">
-        Password <input type="password" name="password" id="password" onChange={handleChange} />
+        Password{' '}
+        <input type="text" id="password" placeholder="Password123!" {...register('password')} />
       </label>
+      <p>{errors.password?.message}</p>
       <label htmlFor="repeat-password">
-        Repeat password <input type="password" name="repeat-password" id="repeat-password" />
+        Confirm password{' '}
+        <input
+          type="text"
+          placeholder="Password123!"
+          id="repeat-password"
+          {...register('confirm_password')}
+        />
       </label>
+      <p>{errors.confirm_password?.message}</p>
       <label htmlFor="male">
         Male
-        <input type="radio" name="gender" id="male" value="male" onChange={handleChange} />
+        <input type="radio" id="male" value="male" {...register('gender')} />
       </label>
       <label htmlFor="female">
         Female
-        <input type="radio" name="gender" id="female" value="female" onChange={handleChange} />
+        <input type="radio" id="female" value="female" {...register('gender')} />
       </label>
+      <p>{errors.gender?.message}</p>
       <label htmlFor="accept-terms">
-        <input type="checkbox" id="accept-terms" />
+        <input type="checkbox" id="accept-terms" {...register('acceptTermsAndConditions')} />
         accept Terms and Conditions
       </label>
-      <button type="submit">Submit</button>
+      <p>{errors.acceptTermsAndConditions?.message}</p>
+      <button>Submit</button>
     </form>
   );
 }
