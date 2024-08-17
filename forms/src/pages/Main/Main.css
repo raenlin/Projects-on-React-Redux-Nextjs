@@ -17,3 +17,9 @@
 .form_link:hover {
   background-color: #7ac4ba86;
 }
+
+.tiles-wrapper {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 50px;
+}

@@ -7,6 +7,7 @@ const initialState = {
     email: '',
     password: '',
     confirm_password: '',
+    country: '',
     gender: '',
   },
   controlled: {
@@ -15,6 +16,7 @@ const initialState = {
     email: '',
     password: '',
     confirm_password: '',
+    country: '',
     gender: '',
   },
 };

@@ -12,6 +12,7 @@ export type MyForm = {
   email: string;
   password: string;
   confirm_password: string;
+  country: string;
   gender: string;
   acceptTermsAndConditions: boolean;
 };
