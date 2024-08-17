@@ -30,7 +30,9 @@ input {
   border-radius: 5px;
 }
 
-.form_wrapper button:disabled {
+.disabled {
+  pointer-events: none;
+  cursor: none;
   background-color: #3b47468d;
 }
 
@@ -47,7 +49,7 @@ input {
   cursor: pointer;
   outline: none;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 0.8em;
   vertical-align: middle;
   color: rgb(255 255 255);
   text-align: center;

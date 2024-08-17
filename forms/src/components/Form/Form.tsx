@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 export default function Form({ register, handleSubmit, errors }: FormProps) {
   const countries = useSelector((state: RootState) => state.countries.initialCountries);
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">
@@ -56,9 +57,10 @@ export default function Form({ register, handleSubmit, errors }: FormProps) {
       <p>{errors.gender?.message}</p>
       <label htmlFor="img" className="input-file">
         Upload image
-        <input type="file" id="img" />
-        <span>Выберите файл</span>
+        <input type="file" id="img" accept=".jpg, .jpeg, .png" {...register('image')} />
+        <span>Upload</span>
       </label>
+      <p>{errors.image?.message}</p>
       <label htmlFor="accept-terms">
         <input type="checkbox" id="accept-terms" {...register('acceptTermsAndConditions')} />
         accept Terms and Conditions

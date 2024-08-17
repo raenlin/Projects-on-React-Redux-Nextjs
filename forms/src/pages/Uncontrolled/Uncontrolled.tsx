@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../state/store';
-import { submitUncontrolled } from '../../state/formSlice';
-import { formSchema } from '../../Validations/formValidation';
+import { setUncontrolledImage, submitUncontrolled } from '../../state/formSlice';
+import { formSchema } from '../../validations/formValidation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Form from '../../components/Form/Form';
@@ -18,6 +18,14 @@ export default function Uncontrolled() {
   } = useForm<MyForm>({ mode: 'onSubmit', resolver: yupResolver(formSchema) });
 
   const submit: SubmitHandler<MyForm> = async (data) => {
+    const file = data.image[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      dispatch(setUncontrolledImage(base64String));
+    };
+
+    reader.readAsDataURL(file);
     dispatch(submitUncontrolled(data));
     const isValid = await formSchema.isValid(data);
 

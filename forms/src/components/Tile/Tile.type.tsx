@@ -6,5 +6,6 @@ export type TileProp = {
     password: string;
     country: string;
     gender: string;
+    image: string;
   };
 };

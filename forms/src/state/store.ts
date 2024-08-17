@@ -7,6 +7,13 @@ export const store = configureStore({
     form: formReducer,
     countries: countriesReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['form/submitUncontrolled', 'form/submitControlled'],
+        ignoredPaths: ['form.uncontrolled.image', 'form.controlled.image'],
+      },
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

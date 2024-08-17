@@ -9,6 +9,7 @@ const initialState = {
     confirm_password: '',
     country: '',
     gender: '',
+    image: '',
   },
   controlled: {
     name: '',
@@ -18,6 +19,7 @@ const initialState = {
     confirm_password: '',
     country: '',
     gender: '',
+    image: '',
   },
 };
 
@@ -31,8 +33,15 @@ const formSlice = createSlice({
     submitControlled(state, action) {
       state.controlled = action.payload;
     },
+    setControlledImage(state, action) {
+      state.controlled.image = action.payload;
+    },
+    setUncontrolledImage(state, action) {
+      state.uncontrolled.image = action.payload;
+    },
   },
 });
 
-export const { submitUncontrolled, submitControlled } = formSlice.actions;
+export const { submitUncontrolled, submitControlled, setControlledImage, setUncontrolledImage } =
+  formSlice.actions;
 export default formSlice.reducer;
