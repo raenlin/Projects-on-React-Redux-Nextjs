@@ -8,12 +8,12 @@ export type FormProps = {
 
 export type MyForm = {
   name: string;
-  age: string;
+  age: number;
   email: string;
   password: string;
   confirm_password: string;
   country: string;
   gender: string;
-  image: FileList;
+  image: File[];
   acceptTermsAndConditions: boolean;
 };

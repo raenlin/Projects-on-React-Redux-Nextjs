@@ -21,5 +21,6 @@ export const formSchema = yup.object().shape({
     .oneOf([yup.ref('password')], 'passwords must match'),
   country: yup.string().required('field must not be empty'),
   gender: yup.string().required('field must not be empty'),
+  image: yup.mixed().required(),
   acceptTermsAndConditions: yup.boolean().required().oneOf([true], 'you must accept the terms'),
 });
