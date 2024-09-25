@@ -9,8 +9,8 @@ import Link from 'next/link';
 
 function Card({ innerClassName, className, item, setIsPopupVisible }: CardProp) {
   const params = useSearchParams();
-  const search = params.get('search');
-  const page = params.get('page');
+  const search = params.get('search') || '';
+  const page = params.get('page') || '1';
   const dispatch = useDispatch<AppDispatch>();
   const selectedCards = useSelector((state: RootState) => state.cards.selectedCards);
   const { name } = item;

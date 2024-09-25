@@ -5,7 +5,7 @@ import { PaginationProps } from './pagination.type';
 export function Pagination({ pages }: PaginationProps) {
   const router = useRouter();
   const params = useSearchParams();
-  const currentpage = Number(params.get('page'));
+  const currentpage = Number(params.get('page')) || 1;
   return (
     <div className={styles.pagination}>
       <ul className={styles['pagination-list']}>
